@@ -75,7 +75,9 @@ public class Model {
 	
 	public void SelectCoordandPiece(Coordinate Coord){
 		
-		if(selectedCoords.size()==0 &&PiecesWhere.get(Coord)!=null && ((PiecesWhere.get(Coord).getColor()==Color.WHITE)==whiteMoves)) {
+		if ((PiecesWhere.get(Coord).getColor()==Color.WHITE)==whiteMoves){
+		
+		if(selectedCoords.size()==0 &&PiecesWhere.get(Coord)!=null) {
 			selectedCoords.add(Coord);
 			SelectedPiece=PiecesWhere.get(Coord);
 			
@@ -89,8 +91,11 @@ public class Model {
 			}
 			
 			else {
+				
 				selectedCoords.add(Coord);
 			}
+		
+	}
 		}
 	}
 	

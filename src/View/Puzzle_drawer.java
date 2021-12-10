@@ -97,8 +97,18 @@ public class Puzzle_drawer extends JPanel {
 						g.setColor(Color.ORANGE.darker());
 					}*/
 					//g.setFont(new Font("TimesRoman", Font.PLAIN, 15)); 
+					
 					//g.drawString(""+myPieces.get(c).getName().charAt(0)+myPieces.get(c).getName().charAt(1), (c.getX()*30)+150, (c.getY()*30)+67);
+					
+					if(model.getSelectedPiece()!=null&&model.getSelectedPiece().equals(myPieces.get(c))) {
+						g.setColor(Color.red);
+						g.drawRect((c.getX()*45)+100,c.getY()*45+55, 42, 46);
+						System.out.println(model.getSelectedPiece());
+					}
+					
 				}
+				
+				
 				
 				
 				

@@ -48,7 +48,9 @@ public void setSelected() {
 	}
 }
 
-
+public boolean getSelected() {
+	return this.isSelected;
+}
 
 public String getMovement() {
 	return this.movement;

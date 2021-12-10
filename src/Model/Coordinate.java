@@ -30,8 +30,17 @@ public class Coordinate {
 	public Coordinate(int y,int x) {
 		this.x=x;
 		this.y=y;
-		this.color=Color.WHITE;
-	}
+		
+		if(x%2==y%2) {
+			this.color=Color.WHITE;
+		}
+		
+		else {
+			this.color=Color.BLACK;
+			
+		}
+		
+			}
 	public Color getColor() {
 		return this.color;
 	}

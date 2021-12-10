@@ -67,13 +67,12 @@ public class Board {
 		Piece KnightWhite2=new Piece("KnightWhite2", "Jump",Color.WHITE,imgs[3]);
 		Piece QueenWhite= new Piece("QueenWhite","omni",Color.WHITE,imgs[1] );
 		Piece KingWhite=new Piece("KingWhite","Omni_1",Color.WHITE,imgs[0]);
-		boolean change=false;
 		
 		
 		
 		for(int i=0;i<8;i++) {
-			IP.put(new Coordinate(1,i,change), new Pawn("PawnWhite","Straight",Color.BLACK,imgs[11]));
-			change=!change;
+			IP.put(new Coordinate(1,i), new Pawn("PawnBlack","Straight",Color.BLACK,imgs[11]));
+			
 			
 		
 		}
@@ -114,11 +113,11 @@ public class Board {
 		
 		
 		
-		 change=true;
+		
 		for(int i=0;i<8;i++) {
-			Coordinate c= new Coordinate(6,i,change);
-			IP.put(c, new Pawn("Pawn","Straight",Color.WHITE,imgs[5]));
-			change=!change;
+			Coordinate c= new Coordinate(6,i);
+			IP.put(c, new Pawn("PawnWhite","Straight",Color.WHITE,imgs[5]));
+			
 			
 		
 		}

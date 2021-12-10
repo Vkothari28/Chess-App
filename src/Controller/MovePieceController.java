@@ -24,7 +24,7 @@ public class MovePieceController extends MouseAdapter {
 	
 	 @Override
 		public void mousePressed(MouseEvent me) {
-		 
+		 System.out.println("Clicked on"+me.getX());
 		 
 			 
 		

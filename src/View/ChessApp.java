@@ -1,7 +1,11 @@
 package View;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
@@ -12,8 +16,11 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
+import Controller.MovePieceController;
+import Controller.SelectPieceController;
 import Model.Coordinate;
 import Model.Model;
+
 
 
 
@@ -48,6 +55,48 @@ public class ChessApp extends JFrame {
 		setContentPane(contentPane);
 		
 		 panel = new Puzzle_drawer(model);
+		 panel.addMouseListener(new MouseListener() {
+
+				
+				
+					
+				
+				
+
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void mouseExited(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void mousePressed(MouseEvent e) {
+					new SelectPieceController(model, ChessApp.this).mousePressed(e);
+					
+				}
+
+				@Override
+				public void mouseReleased(MouseEvent me) {
+				
+					
+					
+
+					// TODO Auto-generated method stub
+					
+				}
+			});;
 		 
 		
 		panel.setBackground(Color.cyan.darker());
