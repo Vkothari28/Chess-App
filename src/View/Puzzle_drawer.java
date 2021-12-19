@@ -106,6 +106,11 @@ public class Puzzle_drawer extends JPanel {
 						System.out.println(model.getSelectedPiece());
 					}
 					
+					if(model.getSelectedCoordinates().size()==2) {
+						model.move(model.getSelectedCoordinates().get(0), model.getSelectedCoordinates().get(1));
+						
+					}
+					
 				}
 				
 				

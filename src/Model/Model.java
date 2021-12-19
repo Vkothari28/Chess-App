@@ -75,51 +75,74 @@ public class Model {
 	
 	public void SelectCoordandPiece(Coordinate Coord){
 		
-		if ((PiecesWhere.get(Coord).getColor()==Color.WHITE)==whiteMoves){
 		
-		if(selectedCoords.size()==0 &&PiecesWhere.get(Coord)!=null) {
+//		if(selectedCoords.size()==2) {
+//			move(selectedCoords.get(0), selectedCoords.get(1));
+//		}
+		
+		
+		if(selectedCoords.size()==0 &&PiecesWhere.get(Coord)!=null&&(PiecesWhere.get(Coord).getColor()==Color.WHITE)==whiteMoves) {
 			selectedCoords.add(Coord);
 			SelectedPiece=PiecesWhere.get(Coord);
 			
 		}
 		
 		else if(selectedCoords.size()==1) {
-			if(PiecesWhere.get(Coord)!=null&&((PiecesWhere.get(Coord).getColor().equals(Color.WHITE))==whiteMoves)) {
+			if(PiecesWhere.get(Coord)!=null &&((PiecesWhere.get(Coord).getColor()==Color.WHITE)==whiteMoves)) {
 				selectedCoords.clear();
 				SelectedPiece=PiecesWhere.get(Coord);
 				selectedCoords.add(Coord);
+			
+			
 			}
 			
-			else {
-				
+			
+			else if(PiecesWhere.get(Coord)==null) {
 				selectedCoords.add(Coord);
 			}
+			
+			
+			
 		
 	}
-		}
-	}
+		
+				}
+	
 	
 
 
 
 	public void move(Coordinate from, Coordinate to) {
-		SelectedPiece= PiecesWhere.get(from);
+		//SelectedPiece= PiecesWhere.get(from);
 		if(SelectedPiece==null) {
 			return;
 		}
 		
-		if ((SelectedPiece.color==Color.WHITE)==whiteMoves) {
+		if ((selectedCoords.size()==2&&SelectedPiece.color==Color.WHITE)==whiteMoves) {
 			if(myBoard.canMove(SelectedPiece, from, to)) {
 				PiecesWhere.remove(from);
 				PiecesWhere.put(to, SelectedPiece);
 				myBoard.update(PiecesWhere);
 				whiteMoves= !whiteMoves;
+				selectedCoords.clear();
+				SelectedPiece=null;
+				
+				
+			}
+			
+			else {
+				selectedCoords.remove(1);
+				
 			}
 			
 			
-		}
-		   
 			
+			
+			
+		}
+		
+		   
+				
 		
 		
 	}

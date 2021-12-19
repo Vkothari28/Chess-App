@@ -24,20 +24,19 @@ public class SelectPieceController extends MouseAdapter{
 	
 	@Override 
 	public void mousePressed(MouseEvent me) {
+		
 		Piece p=model.getSelectedPiece();
 		System.out.println("got here");
 		HashMap<Coordinate,Piece> mymap=model.getPieceswhere();
 		
-		
+		ArrayList<Coordinate> coords =model.getSelectedCoordinates();
 		Coordinate C= new Coordinate((me.getY()-55)/45,((me.getX()-100)/45));
 		
 		
-		System.out.println(mymap.get(C));
+		System.out.println(coords);
+		model.SelectCoordandPiece(C);
+		System.out.println(coords);
 		
-		if(mymap.get(C)!=null){
-			model.SelectCoordandPiece(C);
-		}
-	
 		
 		
 		

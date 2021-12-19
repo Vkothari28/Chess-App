@@ -9,7 +9,7 @@ import Model.Coordinate;
 import Model.Model;
 import View.ChessApp;
 
-public class MovePieceController extends MouseAdapter {
+public class MovePieceController  {
 	
 	Model model;
 	ChessApp app;
@@ -22,14 +22,19 @@ public class MovePieceController extends MouseAdapter {
 	
 	
 	
-	 @Override
-		public void mousePressed(MouseEvent me) {
-		 System.out.println("Clicked on"+me.getX());
+	
+		public void MovePiece() {
+		 ArrayList<Coordinate> mysel= model.getSelectedCoordinates();
 		 
 			 
 		
+		 if(mysel.size()>1) {
+			 model.move(mysel.get(0), mysel.get(1));
+		 }
 		
 		
+		 
+		 app.repaint();
 	}
 
 }

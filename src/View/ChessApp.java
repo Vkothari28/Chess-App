@@ -2,7 +2,8 @@ package View;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.ActionListener;import java.awt.event.ContainerEvent;
+import java.awt.event.ContainerListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
@@ -54,7 +55,11 @@ public class ChessApp extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
 		setContentPane(contentPane);
 		
-		 panel = new Puzzle_drawer(model);
+	
+		
+		panel = new Puzzle_drawer(model);
+		 
+	
 		 panel.addMouseListener(new MouseListener() {
 
 				

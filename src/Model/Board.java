@@ -71,7 +71,7 @@ public class Board {
 		
 		
 		for(int i=0;i<8;i++) {
-			IP.put(new Coordinate(1,i), new Pawn("PawnBlack","Straight",Color.BLACK,imgs[11]));
+			IP.put(new Coordinate(1,i), new Pawn("PawnBlack"+i,"Straight",Color.BLACK,imgs[11]));
 			
 			
 		
@@ -116,7 +116,7 @@ public class Board {
 		
 		for(int i=0;i<8;i++) {
 			Coordinate c= new Coordinate(6,i);
-			IP.put(c, new Pawn("PawnWhite","Straight",Color.WHITE,imgs[5]));
+			IP.put(c, new Pawn("PawnWhite"+i,"Straight",Color.WHITE,imgs[5]));
 			
 			
 		
@@ -229,6 +229,7 @@ public class Board {
 				int j=from.getY()+1;
 				for(int i=from.getX()+1;i<from.getX()+slopexval&&j<from.getY()+slopeyval;i++) {
 					Coordinate c= new Coordinate(j,i);
+					j++;
 					if(InitialPieces.get(c)!=null) {
 						return false;
 					}
@@ -242,16 +243,26 @@ public class Board {
 				
 				
 				else if(from.getX()+from.getY()==to.getX()+to.getY()) { //Diagonal up left to right and down right to left
+					
+					System.out.println("Yessir");
 					int startx=from.getX();
 					int starty=from.getY();
-					if(to.getX()>from.getX()&&from.getY()>to.getY()) {
-						startx=to.getX();
+//					if(to.getX()>from.getX()&&from.getY()>to.getY()) {
+//						startx=to.getX();
+//						starty=to.getY();
+//					}
+					
+					if(to.getY()>from.getY()) {
 						starty=to.getY();
 					}
-					for(int i=1;i<slopexval;i++) {
-						Coordinate c= new Coordinate(starty-i,startx+i);
+					if(to.getX()>from.getX()) {
+						startx=to.getX();
+					}
+					for(int i=1;i<Math.abs(slopexval);i++) {
+						Coordinate c= new Coordinate(starty-i,startx-i);
 						
 						if(InitialPieces.get(c)!=null) {
+							System.out.println("aashiq hoon main dil ka");
 							return false;
 						}
 						
@@ -276,11 +287,11 @@ public class Board {
 			if(myPiece.getColor().equals(Color.BLACK)) {
 				
 				
-				if(to.getY()==from.getY()) {
-				if(from.getX()+2==to.getX()&&from.getX()==1) {
+				if(to.getX()==from.getX()) {
+				if(from.getY()+2==to.getY()&&from.getY()==1) {
 					
-				for(int i=from.getX()+1;i<=to.getX();i++) {
-					if(InitialPieces.get(new Coordinate(from.getY(),i))!=null) {
+				for(int i=from.getY()+1;i<=to.getY();i++) {
+					if(InitialPieces.get(new Coordinate(i,from.getX()))!=null) {
 						return false;
 					}
 					
@@ -288,7 +299,7 @@ public class Board {
 				
 				return true;
 				}
-				else if(from.getX()+1==to.getX()) {
+				else if(from.getY()+1==to.getY()) {
 					
 					if(InitialPieces.get(to)==null) {
 						return true;
@@ -306,11 +317,11 @@ public class Board {
 			else if(myPiece.getColor().equals(Color.WHITE)) {
 				
 				
-				if(to.getY()==from.getY()) {
-				if(from.getX()-2==to.getX()&&from.getX()==6) {
+				if(to.getX()==from.getX()) {
+				if(from.getY()-2==to.getY()&&from.getY()==6) {
 					
-				for(int i=from.getX()-1;i>=to.getX();i--) {
-					if(InitialPieces.get(new Coordinate(from.getY(),i))!=null) {
+				for(int i=from.getY()-1;i>=to.getY();i--) {
+					if(InitialPieces.get(new Coordinate(i,from.getX()))!=null) {
 						return false;
 					}
 					
@@ -318,7 +329,7 @@ public class Board {
 				
 				return true;
 				}
-				else if(from.getX()-1==to.getX()) {
+				else if(from.getY()-1==to.getY()) {
 					
 					if(InitialPieces.get(to)==null) {
 						return true;
