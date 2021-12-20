@@ -199,79 +199,71 @@ public class Board {
 		
 		else if(myPiece.getMovement().equals("Diagonal")) {
 			
-			if(from.getX()==to.getX()||to.getY()==from.getY()) {
-				return false; // cannot move linearly 
-			}
-			int slopexval=from.getX()-to.getX();
-			int slopeyval= from.getY()-to.getY();
-			
-			
-			if(from.getX()+from.getY()>to.getX()+to.getY()) { // down to up diagonal right to left
-				int j=from.getY()-1;
-				for(int i=from.getX()-1;i>from.getX()-slopexval&&j>from.getY()-slopeyval;i--) {
-					Coordinate c= new Coordinate(j,i);
-					if(InitialPieces.get(c)!=null) {
+			if(Math.abs((from.getX()-to.getX()))==Math.abs(from.getY()-to.getY())) {
+			if(from.getY()>to.getY()) {
+				int j1=to.getX()-from.getX();
+				int j_it=1;
+				if(from.getX()<to.getX()) {
+				
+				
+				for(int i=1;i<Math.abs(from.getY()-to.getY())&&j_it<j1;i++){
+					Coordinate coord= new Coordinate(from.getY()-i,from.getX()+j_it);
+					j_it++;
+					if(InitialPieces.get(coord)!=null) {
+						System.out.println("returning False 1");
 						return false;
-					}
-					else {
-						check=true;
 					}
 					
 					
 				}
 				
-				return check;
-		//	if(from.getY()>)	
-				
-			}
-			
-			else if(from.getX()+from.getY()<to.getX()+to.getY()) { // up to down diagonal left to right
-				int j=from.getY()+1;
-				for(int i=from.getX()+1;i<from.getX()+slopexval&&j<from.getY()+slopeyval;i++) {
-					Coordinate c= new Coordinate(j,i);
-					j++;
-					if(InitialPieces.get(c)!=null) {
-						return false;
-					}
-					else {
-						check=true;
-					}
-					
-					
-				}
+				return true;
 			}
 				
-				
-				else if(from.getX()+from.getY()==to.getX()+to.getY()) { //Diagonal up left to right and down right to left
+				else {
+					int j=from.getX()-to.getX();
 					
-					System.out.println("Yessir");
-					int startx=from.getX();
-					int starty=from.getY();
-//					if(to.getX()>from.getX()&&from.getY()>to.getY()) {
-//						startx=to.getX();
-//						starty=to.getY();
-//					}
-					
-					if(to.getY()>from.getY()) {
-						starty=to.getY();
-					}
-					if(to.getX()>from.getX()) {
-						startx=to.getX();
-					}
-					for(int i=1;i<Math.abs(slopexval);i++) {
-						Coordinate c= new Coordinate(starty-i,startx-i);
+					for(int i=1;i<from.getY()-to.getY();i++){
+						Coordinate coord= new Coordinate(from.getY()-i,from.getX()-i);
 						
-						if(InitialPieces.get(c)!=null) {
-							System.out.println("aashiq hoon main dil ka");
+						if(InitialPieces.get(coord)!=null) {
+							System.out.println("returning False 2");
 							return false;
 						}
 						
+						
 					}
-					check=true;
+					
+					return true;
 				}
+					
+				}
+			else {
+				int j=1;
+				int iter=1;
+			if(from.getX()>to.getX()) {
+				j=-1;
+				iter=-1;
+				
+			}
+				for(int i=-1;i>from.getY()-to.getY();i--){
+					Coordinate coord= new Coordinate(from.getY()+Math.abs(i),from.getX()+j);
+					
+					if(InitialPieces.get(coord)!=null) {
+						return false;
+					}
+					j+=iter;
+				}
+				return true;
+			}
 			
-			
+//			
+			}
 		}
+
+		
+		
+		
 		
 		else if(myPiece.getMovement().equals("omni")) { // queen can move diagonally and linearly
 			Piece newPiece= new Piece("","Linear",myPiece.getColor());
@@ -280,6 +272,12 @@ public class Board {
 		}
 		else if(myPiece.getMovement().equals("Omni_1")) { // king_movement
 				
+			
+		}
+		
+		else if(myPiece.getMovement().equals("Jump")){
+			return Math.abs((from.getX() - to.getX()) * (from.getY() -to.getY())) ==2;
+			
 			
 		}
 		else if(myPiece.getMovement().equals("Straight")) {

@@ -96,9 +96,17 @@ public class Model {
 			
 			}
 			
+		
+			
 			
 			else if(PiecesWhere.get(Coord)==null) {
 				selectedCoords.add(Coord);
+			}
+			
+			
+			else {
+				selectedCoords.add(Coord);
+				
 			}
 			
 			
@@ -114,18 +122,30 @@ public class Model {
 
 	public void move(Coordinate from, Coordinate to) {
 		//SelectedPiece= PiecesWhere.get(from);
+		
+		
+		
+		
 		if(SelectedPiece==null) {
 			return;
 		}
 		
+		
+		
 		if ((selectedCoords.size()==2&&SelectedPiece.color==Color.WHITE)==whiteMoves) {
 			if(myBoard.canMove(SelectedPiece, from, to)) {
+				
+				if(PiecesWhere.get(to)!=null) {
+					PiecesWhere.remove(to);
+				}
+				
 				PiecesWhere.remove(from);
 				PiecesWhere.put(to, SelectedPiece);
 				myBoard.update(PiecesWhere);
 				whiteMoves= !whiteMoves;
 				selectedCoords.clear();
 				SelectedPiece=null;
+				
 				
 				
 			}

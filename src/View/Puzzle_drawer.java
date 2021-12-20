@@ -83,10 +83,7 @@ public class Puzzle_drawer extends JPanel {
 				if(myPieces.get(c)!=null) {
 					Piece p=myPieces.get(c);
 					
-					System.out.println(c.getY());
-					System.out.println(c.getX());
-					System.out.println(p.getName());
-					System.out.println(p.getColor());
+				
 					Image newImage = p.getImage().getScaledInstance(45, 45, Image.SCALE_DEFAULT);
 					
 					g.drawImage(newImage, (c.getX()*45)+100,  (c.getY()*45)+55, null);
@@ -103,11 +100,12 @@ public class Puzzle_drawer extends JPanel {
 					if(model.getSelectedPiece()!=null&&model.getSelectedPiece().equals(myPieces.get(c))) {
 						g.setColor(Color.red);
 						g.drawRect((c.getX()*45)+100,c.getY()*45+55, 42, 46);
-						System.out.println(model.getSelectedPiece());
+						
 					}
 					
 					if(model.getSelectedCoordinates().size()==2) {
 						model.move(model.getSelectedCoordinates().get(0), model.getSelectedCoordinates().get(1));
+						System.out.println(model.getPieceswhere());
 						
 					}
 					
