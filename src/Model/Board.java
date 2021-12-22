@@ -147,27 +147,40 @@ public class Board {
 		boolean check=false;
 		// rook movement 
 		if(myPiece.movement.equals("Linear")) {
-			
+			int div=1;
 			if(from.getX()==to.getX()) {
-			int start=from.getY();
+				
+				
+				if(from.getY()>to.getY()) {
+				
+					div=-1;
+					
+				}
+					
+					for(int i=1;i<Math.abs(from.getY()-to.getY());i++) {
+					
+						Coordinate c= new Coordinate(from.getY()+(1/div),from.getX());
+						
+						if(InitialPieces.get(c)!=null &&InitialPieces.get(c).getColor()==myPiece.getColor()) {
+							return false;
+						}
+						
+					}
+					check=true;
+				}
+				
+				
+		/*	int start=from.getY();
 			int end=to.getY();
 			if(from.getY()>to.getY()) {
 				start=to.getY();
 				end=from.getY();
 				
-			}
+			}*/
 			
-			for(int i=start;i<end;i++) {
+				
 			
-			Coordinate c= new Coordinate(i,from.getX());
-				if(InitialPieces.get(c)!=null) {
-					return false;
-				}
-				else {
-					check=true;
-				}
-			}
-			
+		
 			return check; 
 		}
 			
@@ -181,21 +194,22 @@ public class Board {
 					
 				}
 				
-				for(int i=start;i<end;i++) {
+				for(int i=start+1;i<=end;i++) {
 				
 				Coordinate c= new Coordinate(from.getY(),i);
-					if(InitialPieces.get(c)!=null) {
+					if(InitialPieces.get(c)!=null&&myPiece.getColor().equals(InitialPieces.get(c).getColor()))  {
 						return false;
 					}
+				}
 					
-					else {
-						check=true;
-					}
+			
+						
+				return true;	
 				}
 				
 				
-			}	
-		}
+			
+		
 		
 		else if(myPiece.getMovement().equals("Diagonal")) {
 			
