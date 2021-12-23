@@ -1,5 +1,7 @@
 package Model;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -56,46 +58,90 @@ public class Model {
 		Coordinate incy;
 		Coordinate decx;
 		Coordinate decy;
+		boolean horizCheck=false;
+		boolean verticCheck=false;
 		Coordinate current=KingLocBlack;
 		ArrayList<Boolean> checklist= new ArrayList<Boolean>();
 		if(whiteMoves) {
 		current=KingLocWhite;
 		}
 		
-		for(int i=0;i<=7;i++) { // linear check;
+		for(int i=0;i<=7;i++) { 
 		
 			incx=new Coordinate(current.getY(),current.getX()+i);
 			decx=new Coordinate(current.getY(),current.getX()-i);
-			incy= new Coordinate(current.getY()+i,current.getX());
-			decy= new Coordinate(current.getY()-i,current.getX());
+			
 			Piece p=PiecesWhere.get(incx);
 			
-			if(incx.getX()<=7&&containsPiece(incx)&&((p.getColor()==Color.WHITE)!=whiteMoves)) {
+			if(horizCheck) {
+				break;
+			}
 			
 			
 			
-				checklist.add(myBoard.canMove(p,incx,current)&&p.getColor().equals(Color.WHITE)==whiteMoves);
-		}
+			if(incx.getX()<=7&&containsPiece(incx)&&((p.getColor()==Color.WHITE)!=whiteMoves)&&horizCheck!=true) {
 			
-			p=PiecesWhere.get(decx);
-			if(decx.getX()>=0&&containsPiece(decx)&&((p.getColor()==Color.WHITE)!=whiteMoves)) {
-				
-				
-				checklist.add(myBoard.canMove(p, decx, current)&&p.getColor().equals(Color.WHITE)==whiteMoves);
-				
+			
+			if(myBoard.canMove(p, incx, current)) {
+				horizCheck=true;
 			}
 			
 		}
-		
-	
+			
+			p=PiecesWhere.get(decx);
+			if(decx.getX()>=0&&containsPiece(decx)&&((p.getColor()==Color.WHITE)!=whiteMoves)&&horizCheck!=true) {
+				
+				
+				if(myBoard.canMove(p, decx, current)) {
+					horizCheck=true;
+				}
+				
+			}
+		}
+			
+			
+			
+			for(int i=0;i<=7;i++) { 
+				
+				incy=new Coordinate(current.getY()+i,current.getX());
+				decy=new Coordinate(current.getY()-i,current.getX());
+				
+				Piece p=PiecesWhere.get(incy);
+				
+				if(verticCheck) {
+					break;
+				}
+				
+				
+				
+				if(incy.getY()<=7&&containsPiece(incy)&&((p.getColor()==Color.WHITE)!=whiteMoves)&&horizCheck!=true) {
+				
+				
+				if(myBoard.canMove(p, incy, current)) {
+					verticCheck=true;
+				}
+				
+			}
+				
+				p=PiecesWhere.get(decy);
+				if(decy.getY()>=0&&containsPiece(decy)&&((p.getColor()==Color.WHITE)!=whiteMoves)&&horizCheck!=true) {
+					
+					
+					if(myBoard.canMove(p, decy, current)) {
+						verticCheck=true;
+					}
+					
+				}
+				
 			
 		
-	if(checklist.contains(true)) {
 		
-		return true;
-	}
+		}
+			
+		
 	
-	return false;
+	
+	return horizCheck||verticCheck ;
 	
 	}
 		
@@ -146,24 +192,20 @@ public class Model {
 //			move(selectedCoords.get(0), selectedCoords.get(1));
 //		}
 		
+		System.out.println("Check?"+isInCheck());
 		
 		if(selectedCoords.size()==0 &&PiecesWhere.get(Coord)!=null&&(PiecesWhere.get(Coord).getColor()==Color.WHITE)==whiteMoves) {
-			System.out.println("madarchod");
+			
 			if (LastPiece!=null) {
-				
-			}
+				selectedCoords.add(Coord);
+				SelectedPiece=PiecesWhere.get(Coord);
+							}
 			//System.out.println(LastPiece);
-			if((LastPiece==null||!isInCheck())) {
+			if((LastPiece==null)) {
 			selectedCoords.add(Coord);
 			SelectedPiece=PiecesWhere.get(Coord);
 			
 		}
-			else if((isInCheck()&&PiecesWhere.get(Coord).getName().contains("King"))){
-			
-				selectedCoords.add(Coord);
-				SelectedPiece=PiecesWhere.get(Coord);
-				
-			}
 			
 		}
 			
@@ -252,6 +294,20 @@ public class Model {
 		   
 				
 		
+		
+	}
+	
+	public void reset() throws IOException {
+		check=false;
+		LastPiece=null;
+		SelectedPiece=null;		
+		this.score=0;
+		this.piececount=16;
+		this.myBoard=new Board();
+		whiteMoves=true;
+		PiecesWhere= myBoard.getPositions();
+		KingLocWhite= new Coordinate(7,4);
+		KingLocBlack= new Coordinate(0,4);
 		
 	}
 	

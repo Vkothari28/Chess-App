@@ -158,10 +158,12 @@ public class Board {
 				}
 					
 					for(int i=1;i<Math.abs(from.getY()-to.getY());i++) {
-					
-						Coordinate c= new Coordinate(from.getY()+(1/div),from.getX());
 						
-						if(InitialPieces.get(c)!=null &&InitialPieces.get(c).getColor()==myPiece.getColor()) {
+						
+						
+						Coordinate c= new Coordinate(from.getY()+(i/div),from.getX());
+						
+						if(InitialPieces.get(c)!=null &&!c.equals(to)) {
 							return false;
 						}
 						
@@ -178,6 +180,32 @@ public class Board {
 				
 			}*/
 			
+			
+			else if(from.getY()==to.getY()) {
+				 div=1;
+				if(from.getX()>to.getX()) {
+					
+					div=-1;
+					
+				}
+				
+				for(int i=1;i<Math.abs(from.getX()-to.getX());i++) {
+					
+				
+					
+					Coordinate c= new Coordinate(from.getY(),from.getX()+(i/div));
+					
+					if(InitialPieces.get(c)!=null &&!c.equals(to)) {
+						return false;
+					}
+					
+				}
+					
+			
+						
+				check=true;;	
+				}
+			
 				
 			
 		
@@ -185,27 +213,7 @@ public class Board {
 		}
 			
 			
-			else if(from.getY()==to.getY()) {
-				int start=from.getX();
-				int end=to.getX();
-				if(from.getY()>to.getY()) {
-					start=to.getX();
-					end=from.getX();
-					
-				}
-				
-				for(int i=start+1;i<=end;i++) {
-				
-				Coordinate c= new Coordinate(from.getY(),i);
-					if(InitialPieces.get(c)!=null&&myPiece.getColor().equals(InitialPieces.get(c).getColor()))  {
-						return false;
-					}
-				}
-					
-			
-						
-				return true;	
-				}
+		
 				
 				
 			

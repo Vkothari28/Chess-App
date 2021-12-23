@@ -17,7 +17,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
-import Controller.MovePieceController;
+import Controller.ResetController;
 import Controller.SelectPieceController;
 import Model.Coordinate;
 import Model.Model;
@@ -33,7 +33,7 @@ public class ChessApp extends JFrame {
 	 Model model;
 	 Puzzle_drawer panel;
 	 JLabel Congratulation;
-	 JButton btnReset = new JButton("Reset");
+	 JButton btnReset;
 		
 		JLabel lblMoveCount = new JLabel("Move Count");
 		
@@ -44,8 +44,7 @@ public class ChessApp extends JFrame {
 	
 	public ChessApp(Model model) {
 		
-
-	
+		
 		this.model=model;
 		setResizable(false);
 		setTitle("Chess App"); 
@@ -56,7 +55,24 @@ public class ChessApp extends JFrame {
 		setContentPane(contentPane);
 		
 	
-		
+		btnReset=new JButton("Reset");
+		btnReset.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					System.out.println("trying this");
+					new ResetController(model, ChessApp.this).reset();
+					
+					ChessApp.this.model= new Model();
+					ChessApp.this.repaint();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
 		panel = new Puzzle_drawer(model);
 		 
 	
@@ -104,10 +120,12 @@ public class ChessApp extends JFrame {
 			});;
 		 
 		
-		panel.setBackground(Color.cyan.darker());
+		panel.setBackground(new Color(153,102,0));
 		
 		JLabel Congratulations = new JLabel("");
 		Congratulations.setVisible(false);
+		
+
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -122,7 +140,9 @@ public class ChessApp extends JFrame {
 							.addContainerGap()
 							.addComponent(lblMoveCount, GroupLayout.PREFERRED_SIZE, 112, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(numberMoveslabel)))
+							.addComponent(numberMoveslabel)
+							.addGap(72)
+							.addComponent(btnReset)))
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
@@ -135,11 +155,16 @@ public class ChessApp extends JFrame {
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGap(29)
 							.addComponent(panel, GroupLayout.PREFERRED_SIZE, 457, GroupLayout.PREFERRED_SIZE)))
-					.addGap(31)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblMoveCount)
-						.addComponent(numberMoveslabel, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE))
-					.addGap(23))
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(31)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblMoveCount)
+								.addComponent(numberMoveslabel, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(18)
+							.addComponent(btnReset)))
+					.addGap(22))
 		);
 		contentPane.setLayout(gl_contentPane);
 
