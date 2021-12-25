@@ -16,11 +16,12 @@ import Model.Coordinate;
 import Model.Model;
 import Model.Piece;
 
-
+import static javax.swing.JOptionPane.showMessageDialog;
 
 public class Puzzle_drawer extends JPanel {
 	
 	Model model;
+	
 	
 	public Puzzle_drawer(Model model) {
 		this.model=model;
@@ -111,7 +112,10 @@ public class Puzzle_drawer extends JPanel {
 					
 				}
 				
-				
+				if(model.isInCheck()) {
+					System.out.println("check");
+					
+				}
 				
 				
 				

@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
@@ -131,8 +132,41 @@ public class Board {
 	}
 	
 	
+	public boolean safeMove(Coordinate from, Coordinate coord) {
+		
+		Color current=InitialPieces.get(from).getColor();
+		Coordinate diagDownright=new Coordinate(coord.getY()+1,coord.getX()+1);
+		
+		Coordinate diagupright=new Coordinate(coord.getY()-1,coord.getX()+1);
+		Coordinate left=new Coordinate(coord.getY(),coord.getX()-1);
+		
+		Coordinate right=new Coordinate(coord.getY(),coord.getX()+1);
+		
+		Coordinate diagDownleft=new Coordinate(coord.getY()+1,coord.getX()-1);
+		Coordinate diagUpLeft= new Coordinate(coord.getY()-1,coord.getX()-1); 
+		
+		ArrayList<Coordinate> mycoords= new ArrayList<Coordinate>( Arrays.asList(diagDownleft, diagDownright, diagupright,diagUpLeft,left, right));
+		
+		
+		for(int i=0;i<mycoords.size();i++) {
+			if(mycoords.get(i)!=null) {
+				if(mycoords.get(i).getColor()!=current) {
+					return false;
+				}
+			}
+		}
+		
+		return true;
+		
+	}
+	
+	
 	
 	public boolean canMove(Piece myPiece,Coordinate from, Coordinate to) {
+		
+		if(to.getX()>7||to.getY()>7||to.getY()<0||from.getX()<0 ) {
+			return false;
+		}
 		
 		if(InitialPieces.get(new Coordinate(from.getY(),from.getX()))==null) {
 			return false;
@@ -331,6 +365,17 @@ public class Board {
 					
 				}
 				
+				else if((to.getY()==from.getY()+1)&&InitialPieces.get(to)!=null &&InitialPieces.get(to).getColor()!=InitialPieces.get(from).getColor()) {
+					
+					if(to.getX()==from.getX()+1 ||to.getX()==from.getX()-1) {
+					
+					return true;
+					
+				}
+				}
+				
+			
+				
 			}
 			
 			
@@ -360,6 +405,15 @@ public class Board {
 				
 					
 				}
+				
+else if((to.getY()==from.getY()-1)&&InitialPieces.get(to)!=null &&InitialPieces.get(to).getColor()!=InitialPieces.get(from).getColor()) {
+					
+					if(to.getX()==from.getX()+1 ||to.getX()==from.getX()-1) {
+					
+					return true;
+					
+				}
+}
 				
 			}
 			
