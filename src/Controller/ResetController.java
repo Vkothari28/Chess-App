@@ -21,7 +21,7 @@ public class ResetController {
 		
 		
 		m.reset();
-		
+		app.getCheckLabel().setVisible(false);
 		app.repaint();
 	}
 	

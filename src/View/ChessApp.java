@@ -1,12 +1,19 @@
 package View;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;import java.awt.event.ContainerEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.event.ContainerEvent;
 import java.awt.event.ContainerListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
@@ -15,6 +22,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import Controller.ResetController;
@@ -29,10 +37,10 @@ import Model.Model;
 
 
 
-public class ChessApp extends JFrame {
+public class ChessApp extends JFrame  {
 	 Model model;
 	 Puzzle_drawer panel;
-	 JLabel Congratulation;
+	 JLabel Congratulations;
 	 JButton btnReset;
 		
 		JLabel lblMoveCount = new JLabel("Move Count");
@@ -44,7 +52,7 @@ public class ChessApp extends JFrame {
 	
 	public ChessApp(Model model) {
 		
-		
+	
 		this.model=model;
 		setResizable(false);
 		setTitle("Chess App"); 
@@ -75,18 +83,18 @@ public class ChessApp extends JFrame {
 		});
 		panel = new Puzzle_drawer(model);
 		 
-	
 		 panel.addMouseListener(new MouseListener() {
 
 				
 				
-					
+	
 				
 				
 
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					// TODO Auto-generated method stub
+					new SelectPieceController(model, ChessApp.this).mousePressed(e);
+					
 					
 				}
 
@@ -104,7 +112,6 @@ public class ChessApp extends JFrame {
 
 				@Override
 				public void mousePressed(MouseEvent e) {
-					new SelectPieceController(model, ChessApp.this).mousePressed(e);
 					
 				}
 
@@ -121,52 +128,59 @@ public class ChessApp extends JFrame {
 		 
 		
 		panel.setBackground(new Color(153,102,0));
-		
-		JLabel Congratulations = new JLabel("");
-		Congratulations.setVisible(false);
-		
-
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(20)
-							.addComponent(panel, GroupLayout.PREFERRED_SIZE, 540, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(Congratulations, GroupLayout.PREFERRED_SIZE, 181, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(lblMoveCount, GroupLayout.PREFERRED_SIZE, 112, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(numberMoveslabel)
-							.addGap(72)
-							.addComponent(btnReset)))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addGap(20)
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 540, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(24, Short.MAX_VALUE))
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblMoveCount, GroupLayout.PREFERRED_SIZE, 112, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(numberMoveslabel, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, 193, Short.MAX_VALUE)
+					.addComponent(btnReset)
+					.addGap(207))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(145)
-							.addComponent(Congratulations, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(29)
-							.addComponent(panel, GroupLayout.PREFERRED_SIZE, 457, GroupLayout.PREFERRED_SIZE)))
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(31)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblMoveCount)
-								.addComponent(numberMoveslabel, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(18)
-							.addComponent(btnReset)))
+					.addGap(29)
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 457, GroupLayout.PREFERRED_SIZE)
+					.addGap(31)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblMoveCount)
+						.addComponent(btnReset)
+						.addComponent(numberMoveslabel, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
 					.addGap(22))
 		);
+		
+		 Congratulations = new JLabel("Check");
+		 panel.add(Congratulations, BorderLayout.NORTH);
+		 
+		 
+		 if (model.isInCheck()) {
+			 Congratulations.setVisible(true);
+		 }
+
+		 else {	
+		 Congratulations.setVisible(false);
+		 
+		 }
+		 
+		 Congratulations.setForeground(new Color(255, 0, 0));
+		 Congratulations.setFont(new Font("Tahoma", Font.PLAIN, 26));
+		 Congratulations.setHorizontalAlignment(SwingConstants.RIGHT);
 		contentPane.setLayout(gl_contentPane);
 
 }
+	
+	public JLabel getCheckLabel() {
+		return Congratulations;
+		
+	}
+
+	
 }

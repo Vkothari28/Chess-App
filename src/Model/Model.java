@@ -53,6 +53,48 @@ public class Model {
 		return this.SelectedPiece;
 	}
 	
+public boolean KnightCheck(Coordinate coord,Color co) {
+		
+		int i=1;
+		int j=2;
+		
+		Coordinate UpAndRight= new Coordinate(coord.getY()-j,coord.getX()+i);
+		
+		Coordinate UpAndLeft= new Coordinate(coord.getY()-j,coord.getX()-i);
+		Coordinate DownAndLeft =new Coordinate(coord.getY()+j,coord.getX()-i);
+		Coordinate DownAndRight= new Coordinate(coord.getY()+j,coord.getX()+i);
+		
+		Coordinate RightAndDown=new Coordinate(coord.getY()+i,coord.getX()+j);
+		
+		Coordinate RightAndUp=new Coordinate(coord.getY()-i,coord.getX()+j);
+		
+		Coordinate LeftAndUp= new Coordinate(coord.getY()-i,coord.getX()-j);
+		Coordinate LeftAndDown=new Coordinate(coord.getY()+i,coord.getX()-j);
+		
+		ArrayList<Coordinate> mylist= new ArrayList<Coordinate>();
+		mylist.add(UpAndLeft);
+		mylist.add(UpAndRight);
+		mylist.add(DownAndLeft);
+		mylist.add(DownAndRight);
+		mylist.add(RightAndUp);
+		mylist.add(RightAndDown);
+		mylist.add(LeftAndUp);
+		mylist.add(LeftAndDown);
+	
+		
+		for(int a=0;i<mylist.size();i++) {
+			
+		Piece p=	PiecesWhere.get(mylist.get(a));
+			if(p!=null &&p.getColor()!=co && p.getName().contains("Knight")) {
+				return true;
+			}
+			
+		}
+		
+		return false;
+	}
+	
+	
 	public boolean isInCheck() {
 		Coordinate incx;
 		Coordinate incy;
@@ -60,12 +102,13 @@ public class Model {
 		Coordinate decy;
 		boolean horizCheck=false;
 		boolean verticCheck=false;
+		
 		Coordinate current=KingLocBlack;
 		ArrayList<Boolean> checklist= new ArrayList<Boolean>();
 		if(whiteMoves) {
 		current=KingLocWhite;
 		}
-		
+		boolean knightCheck=KnightCheck(current, PiecesWhere.get(current).getColor());
 		for(int i=0;i<=7;i++) { 
 		
 			incx=new Coordinate(current.getY(),current.getX()+i);
@@ -141,7 +184,7 @@ public class Model {
 		
 	
 	
-	return horizCheck||verticCheck ;
+	return horizCheck||verticCheck||knightCheck ;
 	
 	}
 		
@@ -174,8 +217,7 @@ public class Model {
 			
 		}
 		}
-	
-	
+
 	
 	private boolean containsPiece(Coordinate coord) {
 		
@@ -267,14 +309,25 @@ public class Model {
 					PiecesWhere.remove(to);
 				}
 				
+				if(SelectedPiece.getName().contains("King")) {
+					if (whiteMoves) {
+						KingLocWhite=to;
+					}
+					else {
+						KingLocBlack=to;
+					}
+				}
 				PiecesWhere.remove(from);
 				PiecesWhere.put(to, SelectedPiece);
+				
 				myBoard.update(PiecesWhere);
 				whiteMoves= !whiteMoves;
 				selectedCoords.clear();
 				LastPiece=SelectedPiece;
 				LastMovedTo=to;
+				
 				SelectedPiece=null;
+				
 				
 				
 				

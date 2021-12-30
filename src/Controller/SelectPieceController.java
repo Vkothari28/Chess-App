@@ -25,6 +25,8 @@ public class SelectPieceController extends MouseAdapter{
 	@Override 
 	public void mousePressed(MouseEvent me) {
 		
+		//DisplayCheckPanel();
+		
 		Piece p=model.getSelectedPiece();
 		System.out.println("got here");
 		HashMap<Coordinate,Piece> mymap=model.getPieceswhere();
@@ -49,6 +51,15 @@ public class SelectPieceController extends MouseAdapter{
 	//}
 	app.repaint();
 	}
+	
+	
+	public void DisplayCheckPanel() {
+		
+		if(model.isInCheck()) {
+		app.getCheckLabel().setVisible(true);
+	}
+	
+}
 	
 }
 

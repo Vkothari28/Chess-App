@@ -132,6 +132,9 @@ public class Board {
 	}
 	
 	
+	
+	
+	
 	public boolean safeMove(Coordinate from, Coordinate coord) {
 		
 		Color current=InitialPieces.get(from).getColor();
@@ -149,8 +152,8 @@ public class Board {
 		
 		
 		for(int i=0;i<mycoords.size();i++) {
-			if(mycoords.get(i)!=null) {
-				if(mycoords.get(i).getColor()!=current) {
+			if(InitialPieces.get(mycoords.get(i))!=null ) {
+				if(InitialPieces.get(mycoords.get(i)).getColor()!=current) {
 					return false;
 				}
 			}
@@ -161,8 +164,183 @@ public class Board {
 	}
 	
 	
+	public boolean diagProtection(Coordinate c, Color co) { //checks if a piece is supported by another piece diagonally
+	
+		int diff=1;
+		Coordinate DiagonalUpRight;
+		Coordinate DiagonalUpLeft;
+		Coordinate DiagonalDownLeft;
+		Coordinate DiagonalDownRight;
+		
+		Piece[] myarray= new Piece[4];
+		
+		
+		while(diff<8) {
+			
+			 DiagonalUpRight= new Coordinate(c.getY()-diff,c.getX()+diff);
+			 DiagonalUpLeft= new Coordinate(c.getY()-diff,c.getX()-diff);
+			 DiagonalDownLeft= new Coordinate(c.getY()-diff,c.getX()-diff);
+			 DiagonalDownRight= new Coordinate(c.getY()+diff,c.getX()-diff);
+			
+			 
+			 
+			Piece p;
+			 if(DiagonalUpRight.getX()<=7 && DiagonalUpRight.getY()<=7) {
+				 p=InitialPieces.get(DiagonalUpRight);
+				 if (p!=null &&myarray[0]==null) {
+					 myarray[0]=p;
+			 }
+				 
+				 
+				 
+				 
+				 
+			 }
+			 
+			 if(DiagonalUpLeft.getX()<=7 && DiagonalUpLeft.getY()<=7 ) {
+				 p=InitialPieces.get(DiagonalUpLeft);
+				 if (p!=null && myarray[1]==null) {
+					 myarray[1]=p;
+			 }
+			 }
+				 
+				 if(DiagonalDownLeft.getX()<=7 && DiagonalDownLeft.getY()<=7) {
+					 p=InitialPieces.get(DiagonalDownLeft);
+					 if (p!=null && myarray[2]==null ) {
+						 myarray[2]=p;;
+				 }
+				 }
+				 
+				 if(DiagonalDownRight.getX()<=7 && DiagonalDownRight.getY()<=7) {
+					 p=InitialPieces.get(DiagonalDownRight);
+					 if (p!=null && myarray[3]==null)  {
+						 myarray[3]=p;
+				 }
+				 }
+					 
+					 
+					 
+					 
+				 
+				 
+				 
+				 
+				 
+			 
+			
+			diff+=1;
+			
+			
+		}
+		
+		
+		
+		for(int i=0;i<myarray.length;i++) {
+		if(myarray[i]!=null&& myarray[i].getColor()!=co&&(myarray[i].getName().contains("Queen")||myarray[i].getName().contains("Bishop"))){
+		return true;
+			
+		}
+		}
+		
+		
+		return false;
+		
+	}
+	
+	
+	public boolean linearProtection(Coordinate c, Color co) { // checks if a piece is supported linearly
+		
+		int diff=1;
+	
+		
+		Piece FirstLeftPiece=null, FirstRightPiece=null, FirstUpPiece=null, FirstDownPiece=null;
+
+		
+		
+		while(diff<=7 && FirstLeftPiece==null) {
+			
+			Coordinate left=new Coordinate(c.getY(),c.getX()-diff);
+			Coordinate right=new Coordinate(c.getY(),c.getX()+diff);
+			Coordinate up= new Coordinate(c.getY()+diff, c.getX());
+			Coordinate down= new Coordinate(c.getY()-diff, c.getX());
+			
+			Piece p;
+			if(left.getX()>=0) {
+				p=InitialPieces.get(left);
+				if(p!=null) {
+					FirstLeftPiece=p;
+				}
+				
+			}
+			
+			if(right.getX()<8 && FirstRightPiece==null) {
+				p=InitialPieces.get(right);
+				if(p!=null) {
+					
+					FirstRightPiece=p;
+				}
+				
+			}
+			
+			if(up.getY()<=7 &&FirstUpPiece==null) {
+				p=InitialPieces.get(up);
+				if(p!=null) {
+					
+					FirstUpPiece=p;
+				}
+				
+				
+				
+				
+			}
+			
+			if(down.getY()>=0 &&FirstDownPiece==null) {
+				p=InitialPieces.get(down);
+				if(p!=null) {
+					
+					FirstDownPiece=p;
+				}
+				
+				
+				
+				
+			}
+			
+			
+			
+			diff+=1;
+		}
+		
+		if(FirstRightPiece!=null&&(FirstRightPiece.getColor()!=co && (FirstRightPiece.getName().contains("Queen")||FirstRightPiece.getName().contains("Rook")))){
+			return true;
+		}
+		
+		if(FirstLeftPiece!=null&&(FirstLeftPiece.getColor()!=co && (FirstLeftPiece.getName().contains("Queen")||FirstLeftPiece.getName().contains("Rook")))){
+			return true;
+		}
+		
+		
+		if(FirstUpPiece!=null&&(FirstUpPiece.getColor()!=co && (FirstUpPiece.getName().contains("Queen")||FirstUpPiece.getName().contains("Rook")))){
+			return true;
+		}
+		
+		if(FirstDownPiece!=null&&(FirstDownPiece.getColor()!=co && (FirstDownPiece.getName().contains("Queen")||FirstDownPiece.getName().contains("Rook")))){
+			return true;
+		}
+		return false;
+		
+	}
+	
+	
+		
+		
+		
+	
 	
 	public boolean canMove(Piece myPiece,Coordinate from, Coordinate to) {
+		
+		
+		
 		
 		if(to.getX()>7||to.getY()>7||to.getY()<0||from.getX()<0 ) {
 			return false;
@@ -247,7 +425,22 @@ public class Board {
 		}
 			
 			
-		
+		else if(myPiece.getMovement().equals("Omni_1")) { // king_movement
+			int distance= Math.abs(from.getX()-to.getX());
+			
+			if(Math.abs(from.getY()-to.getY())>distance) {
+				distance=Math.abs(from.getY()-to.getY());
+			}
+			
+			if(distance==1 &&safeMove(from, to)&&!diagProtection(to, myPiece.getColor())&&!linearProtection(to, myPiece.getColor())) {
+				
+				return true;
+			}
+			
+			return false;
+				
+			
+		}
 				
 				
 			
@@ -326,10 +519,7 @@ public class Board {
 			Piece newPiece2= new Piece("","Diagonal",myPiece.getColor());
 			return (canMove(newPiece, from, to)|| canMove(newPiece2,from,to));
 		}
-		else if(myPiece.getMovement().equals("Omni_1")) { // king_movement
-				
-			
-		}
+		
 		
 		else if(myPiece.getMovement().equals("Jump")){
 			return Math.abs((from.getX() - to.getX()) * (from.getY() -to.getY())) ==2;

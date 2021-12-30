@@ -17,11 +17,11 @@ import Model.Model;
 import Model.Piece;
 
 import static javax.swing.JOptionPane.showMessageDialog;
-
-public class Puzzle_drawer extends JPanel {
+import java.util.Observable;
+public class Puzzle_drawer extends JPanel  {
 	
 	Model model;
-	
+	int count=0;
 	
 	public Puzzle_drawer(Model model) {
 		this.model=model;
@@ -116,7 +116,6 @@ public class Puzzle_drawer extends JPanel {
 					System.out.println("check");
 					
 				}
-				
 				
 				
 				
