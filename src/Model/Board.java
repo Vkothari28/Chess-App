@@ -135,7 +135,7 @@ public class Board {
 	
 	
 	
-	public boolean safeMove(Coordinate from, Coordinate coord) {
+	public boolean safeMove(Coordinate from, Coordinate coord) {  // checks if there is an enemy king 1 square from the to coord in any direction
 		
 		Color current=InitialPieces.get(from).getColor();
 		Coordinate diagDownright=new Coordinate(coord.getY()+1,coord.getX()+1);
@@ -147,16 +147,25 @@ public class Board {
 		
 		Coordinate diagDownleft=new Coordinate(coord.getY()+1,coord.getX()-1);
 		Coordinate diagUpLeft= new Coordinate(coord.getY()-1,coord.getX()-1); 
+		Coordinate up= new Coordinate(coord.getY()-1,coord.getX());
+		Coordinate down= new Coordinate(coord.getY()+1, coord.getX());
 		
-		ArrayList<Coordinate> mycoords= new ArrayList<Coordinate>( Arrays.asList(diagDownleft, diagDownright, diagupright,diagUpLeft,left, right));
+		ArrayList<Coordinate> mycoords= new ArrayList<Coordinate>( Arrays.asList(up,down, diagDownleft, diagDownright, diagupright,diagUpLeft,left, right));
 		
 		
 		for(int i=0;i<mycoords.size();i++) {
-			if(InitialPieces.get(mycoords.get(i))!=null ) {
-				if(InitialPieces.get(mycoords.get(i)).getColor()!=current) {
-					return false;
-				}
+			Piece p= InitialPieces.get(mycoords.get(i));
+			
+			if(p!=null) {
+			System.out.println("here");
+			System.out.println(p.getName());
+			System.out.println(current);
 			}
+			if(p!=null && p.getColor()!=current &&p.getName().contains("King")) {
+				return false;
+			}
+			
+			
 		}
 		
 		return true;
@@ -164,6 +173,35 @@ public class Board {
 	}
 	
 	
+	
+	
+	public boolean PawnProtection(Coordinate c, Color co) {
+		
+		int div=1;
+
+		
+		if(co==Color.BLACK) {
+			
+		
+		div=-1;	
+			
+		}
+		Coordinate check1= new Coordinate(c.getY()-(1/div), c.getX()+1); 	
+		Coordinate check2= new Coordinate(c.getY()-(1/div), c.getX()-1);
+
+		
+		Piece p1=InitialPieces.get(check1);
+		Piece p2= InitialPieces.get(check2);
+	if(p1!=null && p1.getName().contains("Pawn")&&p1.getColor()!=co) {
+		return true;
+	}
+	
+	if(p2!=null && p2.getName().contains("Pawn")&&p2.getColor()!=co) {
+		return true;
+	}
+		
+		return false;
+	}
 	public boolean diagProtection(Coordinate c, Color co) { //checks if a piece is supported by another piece diagonally
 	
 		int diff=1;
@@ -432,7 +470,7 @@ public class Board {
 				distance=Math.abs(from.getY()-to.getY());
 			}
 			
-			if(distance==1 &&safeMove(from, to)&&!diagProtection(to, myPiece.getColor())&&!linearProtection(to, myPiece.getColor())) {
+			if(distance==1 && safeMove(from, to)&&!PawnProtection(to,myPiece.getColor())&&!diagProtection(to, myPiece.getColor())&&!linearProtection(to, myPiece.getColor())) {
 				
 				return true;
 			}
