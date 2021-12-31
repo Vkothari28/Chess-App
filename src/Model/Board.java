@@ -175,6 +175,47 @@ public class Board {
 	
 	
 	
+public boolean KnightCheck(Coordinate coord,Color co) {
+		
+		int i=1;
+		int j=2;
+		
+		Coordinate UpAndRight= new Coordinate(coord.getY()-j,coord.getX()+i);
+		
+		Coordinate UpAndLeft= new Coordinate(coord.getY()-j,coord.getX()-i);
+		Coordinate DownAndLeft =new Coordinate(coord.getY()+j,coord.getX()-i);
+		Coordinate DownAndRight= new Coordinate(coord.getY()+j,coord.getX()+i);
+		
+		Coordinate RightAndDown=new Coordinate(coord.getY()+i,coord.getX()+j);
+		
+		Coordinate RightAndUp=new Coordinate(coord.getY()-i,coord.getX()+j);
+		
+		Coordinate LeftAndUp= new Coordinate(coord.getY()-i,coord.getX()-j);
+		Coordinate LeftAndDown=new Coordinate(coord.getY()+i,coord.getX()-j);
+		
+		ArrayList<Coordinate> mylist= new ArrayList<Coordinate>();
+		mylist.add(UpAndLeft);
+		mylist.add(UpAndRight);
+		mylist.add(DownAndLeft);
+		mylist.add(DownAndRight);
+		mylist.add(RightAndUp);
+		mylist.add(RightAndDown);
+		mylist.add(LeftAndUp);
+		mylist.add(LeftAndDown);
+	
+		
+		for(int a=0;i<mylist.size();i++) {
+			
+		Piece p=	InitialPieces.get(mylist.get(a));
+			if(p!=null &&p.getColor()!=co && p.getName().contains("Knight")) {
+				return true;
+			}
+			
+		}
+		
+		return false;
+	}
+	
 	public boolean PawnProtection(Coordinate c, Color co) {
 		
 		int div=1;
@@ -470,7 +511,7 @@ public class Board {
 				distance=Math.abs(from.getY()-to.getY());
 			}
 			
-			if(distance==1 && safeMove(from, to)&&!PawnProtection(to,myPiece.getColor())&&!diagProtection(to, myPiece.getColor())&&!linearProtection(to, myPiece.getColor())) {
+			if(distance==1 && safeMove(from, to)&&!KnightCheck(to,myPiece.getColor())&&!PawnProtection(to,myPiece.getColor())&&!diagProtection(to, myPiece.getColor())&&!linearProtection(to, myPiece.getColor())) {
 				
 				return true;
 			}

@@ -53,7 +53,7 @@ public class Model {
 		return this.SelectedPiece;
 	}
 	
-public boolean KnightCheck(Coordinate coord,Color co) {
+/*public boolean KnightCheck(Coordinate coord,Color co) {
 		
 		int i=1;
 		int j=2;
@@ -92,7 +92,7 @@ public boolean KnightCheck(Coordinate coord,Color co) {
 		}
 		
 		return false;
-	}
+	}*/
 	
 	
 	public boolean isInCheck() {
@@ -108,7 +108,7 @@ public boolean KnightCheck(Coordinate coord,Color co) {
 		if(whiteMoves) {
 		current=KingLocWhite;
 		}
-		boolean knightCheck=KnightCheck(current, PiecesWhere.get(current).getColor());
+		boolean knightCheck=myBoard.KnightCheck(current, PiecesWhere.get(current).getColor());
 		for(int i=0;i<=7;i++) { 
 		
 			incx=new Coordinate(current.getY(),current.getX()+i);
