@@ -103,12 +103,17 @@ public class Model {
 		boolean horizCheck=false;
 		boolean verticCheck=false;
 		
+		
+		
 		Coordinate current=KingLocBlack;
 		ArrayList<Boolean> checklist= new ArrayList<Boolean>();
 		if(whiteMoves) {
 		current=KingLocWhite;
 		}
 		boolean knightCheck=myBoard.KnightCheck(current, PiecesWhere.get(current).getColor());
+//		System.out.println("Knight"+knightCheck);
+//		System.out.println("curr king at"+current.getY());
+		boolean pawnCheck=myBoard.PawnProtection(current, PiecesWhere.get(current).getColor());
 		for(int i=0;i<=7;i++) { 
 		
 			incx=new Coordinate(current.getY(),current.getX()+i);
@@ -184,7 +189,7 @@ public class Model {
 		
 	
 	
-	return horizCheck||verticCheck||knightCheck ;
+	return horizCheck||verticCheck||knightCheck||pawnCheck||myBoard.diagProtection(current, PiecesWhere.get(current).getColor()) ;
 	
 	}
 		
@@ -290,9 +295,9 @@ public class Model {
 
 	public void move(Coordinate from, Coordinate to) {
 		
-		
+		HashMap<Coordinate, Piece> CheckCase= new HashMap<Coordinate, Piece>(); 
 		//SelectedPiece= PiecesWhere.get(from);
-		
+		CheckCase=PiecesWhere;
 		
 		
 		
@@ -317,8 +322,24 @@ public class Model {
 						KingLocBlack=to;
 					}
 				}
+				
 				PiecesWhere.remove(from);
 				PiecesWhere.put(to, SelectedPiece);
+				if(isInCheck()) {
+					
+					PiecesWhere.remove(to);
+					PiecesWhere.put(from,SelectedPiece);
+					
+					SelectedPiece=null;
+					selectedCoords.clear();
+					myBoard.update(PiecesWhere);
+					
+					//myBoard.update(PiecesWhere);
+					
+				}
+				
+				
+				else {
 				
 				myBoard.update(PiecesWhere);
 				whiteMoves= !whiteMoves;
@@ -329,7 +350,7 @@ public class Model {
 				SelectedPiece=null;
 				
 				
-				
+				}
 				
 			}
 			

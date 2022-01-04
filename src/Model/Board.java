@@ -207,6 +207,9 @@ public boolean KnightCheck(Coordinate coord,Color co) {
 		for(int a=0;i<mylist.size();i++) {
 			
 		Piece p=	InitialPieces.get(mylist.get(a));
+		if(p!=null) {
+			System.out.println(p.getName());
+		}
 			if(p!=null &&p.getColor()!=co && p.getName().contains("Knight")) {
 				return true;
 			}
