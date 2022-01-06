@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class Model {
@@ -30,7 +31,9 @@ public class Model {
 	Piece SelectedPiece;
 	
 	
-	public boolean whiteMoves;
+	private boolean whiteMoves;
+	private boolean[] CastlingWhite=new boolean[2];
+	private boolean[] CastlingBlack=new boolean[2];
 	
 	
 	public Model() throws IOException {
@@ -41,6 +44,8 @@ public class Model {
 		PiecesWhere= myBoard.getPositions();
 		KingLocWhite= new Coordinate(7,4);
 		KingLocBlack= new Coordinate(0,4);
+		Arrays.fill(CastlingBlack, true);
+		Arrays.fill(CastlingWhite, true);
 	}
 	
 	public HashMap<Coordinate, Piece> getPieceswhere(){
@@ -53,47 +58,7 @@ public class Model {
 		return this.SelectedPiece;
 	}
 	
-/*public boolean KnightCheck(Coordinate coord,Color co) {
-		
-		int i=1;
-		int j=2;
-		
-		Coordinate UpAndRight= new Coordinate(coord.getY()-j,coord.getX()+i);
-		
-		Coordinate UpAndLeft= new Coordinate(coord.getY()-j,coord.getX()-i);
-		Coordinate DownAndLeft =new Coordinate(coord.getY()+j,coord.getX()-i);
-		Coordinate DownAndRight= new Coordinate(coord.getY()+j,coord.getX()+i);
-		
-		Coordinate RightAndDown=new Coordinate(coord.getY()+i,coord.getX()+j);
-		
-		Coordinate RightAndUp=new Coordinate(coord.getY()-i,coord.getX()+j);
-		
-		Coordinate LeftAndUp= new Coordinate(coord.getY()-i,coord.getX()-j);
-		Coordinate LeftAndDown=new Coordinate(coord.getY()+i,coord.getX()-j);
-		
-		ArrayList<Coordinate> mylist= new ArrayList<Coordinate>();
-		mylist.add(UpAndLeft);
-		mylist.add(UpAndRight);
-		mylist.add(DownAndLeft);
-		mylist.add(DownAndRight);
-		mylist.add(RightAndUp);
-		mylist.add(RightAndDown);
-		mylist.add(LeftAndUp);
-		mylist.add(LeftAndDown);
-	
-		
-		for(int a=0;i<mylist.size();i++) {
-			
-		Piece p=	PiecesWhere.get(mylist.get(a));
-			if(p!=null &&p.getColor()!=co && p.getName().contains("Knight")) {
-				return true;
-			}
-			
-		}
-		
-		return false;
-	}*/
-	
+
 	
 	public boolean isInCheck() {
 		Coordinate incx;
@@ -189,11 +154,17 @@ public class Model {
 		
 	
 	
-	return horizCheck||verticCheck||knightCheck||pawnCheck||myBoard.diagProtection(current, PiecesWhere.get(current).getColor()) ;
+	return knightCheck||horizCheck||verticCheck||pawnCheck||myBoard.diagProtection(current, PiecesWhere.get(current).getColor()) ;
 	
 	}
 		
+	
+	
+	
 			
+		
+		
+	
 		
 		
 		
@@ -223,6 +194,66 @@ public class Model {
 		}
 		}
 
+	/*
+	 * Function to check if Castling is possible
+	 */
+	boolean CastleCheck(Coordinate from, Coordinate to) {
+		
+	Piece king=PiecesWhere.get(from);
+	Color co=king.getColor();
+	int div=1;
+		
+	if(from.getX()!=4)
+	if (from.getX()>to.getX()) {
+		div=-1;
+		
+		if(!PiecesWhere.get(new Coordinate(from.getY(),0)).getName().contains("Rook")) {
+			return false;
+		}
+		
+	}
+	
+	else if(from.getX()<to.getX()) {
+		
+		if(!PiecesWhere.get(new Coordinate(from.getY(),7)).getName().contains("Rook")) {
+			return false;
+		}
+		
+	}
+	
+	
+	int i=1;
+	Coordinate current=new Coordinate(from.getY(),from.getX());
+	
+	if(king!=null) {
+	
+		
+	while(i<=2) {
+	current.x+=(i/div);	
+		
+	if(PiecesWhere.get(current)!=null) {
+		
+		return false;
+	}
+	
+		i++;
+	}
+		
+	
+		
+		
+		
+		
+		
+	}
+	
+	
+	
+		return true;
+	}
+	
+	
+	
 	
 	private boolean containsPiece(Coordinate coord) {
 		
@@ -231,6 +262,10 @@ public class Model {
 		}
 		return false;
 	}
+	
+	/*
+	 * Function for Selecting a coordinate that a piece will move to 
+	 */
 	
 	public void SelectCoordandPiece(Coordinate Coord){
 		
@@ -308,7 +343,82 @@ public class Model {
 		
 		
 		if ((selectedCoords.size()==2&&SelectedPiece.color==Color.WHITE)==whiteMoves) {
-			if(myBoard.canMove(SelectedPiece, from, to)) {
+			if(!myBoard.canMove(SelectedPiece, from, to)) {
+				if(SelectedPiece.getName().contains("King")) {
+					if(CastleCheck(from, to)) {
+						PiecesWhere.remove(from);
+						PiecesWhere.put(to,SelectedPiece);
+						
+						if(from.getX()>to.getX()) {
+							if(whiteMoves) {
+								if(CastlingWhite[0]=false) {
+									return;
+								}
+							}
+							else {
+								if(CastlingBlack[0]=false) {
+									return;
+								}
+							}
+							
+							
+						Coordinate rookCoord=	new Coordinate(from.getY(),0);
+							Piece Rook= PiecesWhere.get(rookCoord);
+							PiecesWhere.remove(rookCoord);
+							PiecesWhere.put(new Coordinate(to.getY(),to.getX()+1), Rook);
+							
+						}
+						
+						else if(from.getX()<to.getX()) {
+							if(whiteMoves) {
+								if(CastlingWhite[1]=false) {
+									return;
+								}
+							}
+							else {
+								if(CastlingBlack[1]=false) {
+									return;
+								}
+							}
+							
+							Coordinate rookCoord=	new Coordinate(from.getY(),7);
+							Piece Rook= PiecesWhere.get(rookCoord);
+							PiecesWhere.remove(rookCoord);
+							PiecesWhere.put(new Coordinate(to.getY(),to.getX()-1), Rook);
+							
+							
+						}
+						
+						
+						if(whiteMoves) {
+							CastlingWhite[0]=false;
+							CastlingWhite[1]=false;
+							KingLocWhite=to;
+							
+						}
+						else if (!whiteMoves) {
+							Arrays.fill(CastlingBlack, false);
+							KingLocBlack=to;
+						}
+					}
+					whiteMoves=!whiteMoves;
+					LastPiece=SelectedPiece;
+					LastMovedTo=to;
+					selectedCoords.clear();
+					myBoard.update(PiecesWhere);
+					SelectedPiece=null;
+				
+					return;
+				}
+				
+				else {
+					selectedCoords.remove(1);
+					
+				}
+			}
+			
+			
+			else if(myBoard.canMove(SelectedPiece, from, to)) {
 				
 				if(PiecesWhere.get(to)!=null) {
 					PiecesWhere.remove(to);
@@ -316,10 +426,19 @@ public class Model {
 				
 				if(SelectedPiece.getName().contains("King")) {
 					if (whiteMoves) {
+				
 						KingLocWhite=to;
+						
+						if(CastlingWhite[0]==true||CastlingWhite[1]==true) {
+							Arrays.fill(CastlingWhite, false);
+						}
 					}
 					else {
 						KingLocBlack=to;
+						
+						if(CastlingBlack[0]==true||CastlingBlack[1]==true) {
+							Arrays.fill(CastlingBlack, false);
+						}
 					}
 				}
 				
@@ -354,10 +473,7 @@ public class Model {
 				
 			}
 			
-			else {
-				selectedCoords.remove(1);
-				
-			}
+			
 			
 			
 			

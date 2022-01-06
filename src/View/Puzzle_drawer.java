@@ -47,16 +47,16 @@ public class Puzzle_drawer extends JPanel  {
 		
 		int last=0;
 	
-		boolean change=true;
+		
 		for(int i =0;i<8;i++) {
 			for (int j=0;j<8;j++) {
 				Coordinate c= new Coordinate(i, j);
 				
 				
 				
-				c.setColor(change);
+				//c.setColor(c.getColor());
 				coordlist.add(c);
-				change=!change;
+				
 				
 					
 				if(c.getColor()==Color.WHITE) {
@@ -77,7 +77,7 @@ public class Puzzle_drawer extends JPanel  {
 				
 				
 				if(last>7) {
-					change=!change;
+					
 					last=0;
 				}
 				

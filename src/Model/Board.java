@@ -12,7 +12,13 @@ import java.util.HashMap;
 import javax.imageio.ImageIO;
 
 public class Board {
-
+	
+	
+	Color color1=Color.WHITE;
+	Color color2=Color.BLACK;
+	
+	boolean playerChoseWhite=true;
+	
 	HashMap<Coordinate,Piece> InitialPieces=new HashMap<Coordinate, Piece>();
 	//ArrayList<Coordinate> SelectedCoordinates= new ArrayList<Coordinate>();
 	Image imgs[]=new Image[12];
@@ -20,7 +26,12 @@ public class Board {
 	public Board() throws IOException {
 		
 		InitialPieces=this.Initialize();
-		
+		if(!playerChoseWhite) {
+			Color temp=color1;
+			color1=color2;
+			color2=temp;
+			
+		}
 		
 		
 	}
@@ -60,56 +71,56 @@ public class Board {
 		System.out.println(imgs[0]);
 		
 		// white initialization
-		Piece RookWhite=new Piece("RookWhite", "Linear",Color.WHITE,imgs[4]);
-		Piece RookWhite2=new Piece("RookWhite2", "Linear",Color.WHITE,imgs[4]);
-		Piece BishopWhite=new Piece("BishopWhite", "Diagonal",Color.WHITE,imgs[2]);
-		Piece BishopWhite2=new Piece("BishopWhite2", "Diagonal",Color.WHITE,imgs[2]);
-		Piece KnightWhite=new Piece("KnightWhite", "Jump",Color.WHITE,imgs[3]);
-		Piece KnightWhite2=new Piece("KnightWhite2", "Jump",Color.WHITE,imgs[3]);
-		Piece QueenWhite= new Piece("QueenWhite","omni",Color.WHITE,imgs[1] );
-		Piece KingWhite=new Piece("KingWhite","Omni_1",Color.WHITE,imgs[0]);
+		Piece RookWhite=new Piece("RookWhite", "Linear",color1,imgs[4]);
+		Piece RookWhite2=new Piece("RookWhite2", "Linear",color1,imgs[4]);
+		Piece BishopWhite=new Piece("BishopWhite", "Diagonal",color1,imgs[2]);
+		Piece BishopWhite2=new Piece("BishopWhite2", "Diagonal",color1,imgs[2]);
+		Piece KnightWhite=new Piece("KnightWhite", "Jump",color1,imgs[3]);
+		Piece KnightWhite2=new Piece("KnightWhite2", "Jump",color1,imgs[3]);
+		Piece QueenWhite= new Piece("QueenWhite","omni",color1,imgs[1] );
+		Piece KingWhite=new Piece("KingWhite","Omni_1",color1,imgs[0]);
 		
 		
 		
 		for(int i=0;i<8;i++) {
-			IP.put(new Coordinate(1,i), new Pawn("PawnBlack"+i,"Straight",Color.BLACK,imgs[11]));
+			IP.put(new Coordinate(1,i), new Pawn("PawnBlack"+i,"Straight",color2,imgs[11]));
 			
 			
 		
 		}
-		Piece RookBlack=new Piece("RookBlack", "Linear",Color.BLACK,imgs[10]);
-		Piece RookBlack2=new Piece("RookBlack2", "Linear",Color.BLACK,imgs[10]);
-		Piece BishopBlack=new Piece("BishopBlack", "Diagonal",Color.BLACK,imgs[8]);
-		Piece BishopBlack2=new Piece("BishopBlack2", "Diagonal",Color.BLACK,imgs[8]);
-		Piece KnightBlack=new Piece("KnightBlack", "Jump",Color.BLACK,imgs[9]);
-		Piece KnightBlack2=new Piece("KnightBlack2", "Jump",Color.BLACK,imgs[9]);
-		Piece QueenBlack= new Piece("QueenBlack","omni",Color.BLACK,imgs[7] );
-		Piece KingBlack=new Piece("KingBlack","Omni_1",Color.BLACK,imgs[6]);
+		Piece RookBlack=new Piece("RookBlack", "Linear",color2,imgs[10]);
+		Piece RookBlack2=new Piece("RookBlack2", "Linear",color2,imgs[10]);
+		Piece BishopBlack=new Piece("BishopBlack", "Diagonal",color2,imgs[8]);
+		Piece BishopBlack2=new Piece("BishopBlack2", "Diagonal",color2,imgs[8]);
+		Piece KnightBlack=new Piece("KnightBlack", "Jump",color2,imgs[9]);
+		Piece KnightBlack2=new Piece("KnightBlack2", "Jump",color2,imgs[9]);
+		Piece QueenBlack= new Piece("QueenBlack","omni",color2,imgs[7] );
+		Piece KingBlack=new Piece("KingBlack","Omni_1",color2,imgs[6]);
 		
 		
 		//white initalization
-		IP.put(new Coordinate(7,0,Color.BLACK), RookWhite);
-		IP.put(new Coordinate(7,1,Color.WHITE), KnightWhite);
-		IP.put(new Coordinate(7,2,Color.BLACK),BishopWhite);
-		IP.put(new Coordinate(7,3,Color.WHITE), QueenWhite);
-		IP.put(new Coordinate(7,4,Color.BLACK), KingWhite);
-		IP.put(new Coordinate(7,5,Color.WHITE), BishopWhite2);
-		IP.put(new Coordinate(7,6,Color.BLACK), KnightWhite2 );
-	    IP.put(new Coordinate(7,7,Color.WHITE), RookWhite2);
+		IP.put(new Coordinate(7,0), RookWhite);
+		IP.put(new Coordinate(7,1), KnightWhite);
+		IP.put(new Coordinate(7,2),BishopWhite);
+		IP.put(new Coordinate(7,3), QueenWhite);
+		IP.put(new Coordinate(7,4), KingWhite);
+		IP.put(new Coordinate(7,5), BishopWhite2);
+		IP.put(new Coordinate(7,6), KnightWhite2 );
+	    IP.put(new Coordinate(7,7), RookWhite2);
 		
 		 
 		
 		
 		//Black initialization
 		
-		IP.put(new Coordinate(0,0,Color.WHITE), RookBlack);
-		IP.put(new Coordinate(0,1,Color.BLACK), KnightBlack);
-		IP.put(new Coordinate(0,2,Color.WHITE), BishopBlack);
-		IP.put(new Coordinate(0,3,Color.BLACK), QueenBlack);
-		IP.put(new Coordinate(0,4,Color.WHITE), KingBlack);
-		IP.put(new Coordinate(0,5,Color.BLACK), BishopBlack2);
-		IP.put(new Coordinate(0,6,Color.WHITE), KnightBlack2 );
-		IP.put(new Coordinate(0,7,Color.BLACK), RookBlack2);
+		IP.put(new Coordinate(0,0), RookBlack);
+		IP.put(new Coordinate(0,1), KnightBlack);
+		IP.put(new Coordinate(0,2), BishopBlack);
+		IP.put(new Coordinate(0,3), QueenBlack);
+		IP.put(new Coordinate(0,4), KingBlack);
+		IP.put(new Coordinate(0,5), BishopBlack2);
+		IP.put(new Coordinate(0,6), KnightBlack2 );
+		IP.put(new Coordinate(0,7), RookBlack2);
 		
 		
 		
@@ -117,7 +128,7 @@ public class Board {
 		
 		for(int i=0;i<8;i++) {
 			Coordinate c= new Coordinate(6,i);
-			IP.put(c, new Pawn("PawnWhite"+i,"Straight",Color.WHITE,imgs[5]));
+			IP.put(c, new Pawn("PawnWhite"+i,"Straight",color1,imgs[5]));
 			
 			
 		
@@ -194,8 +205,10 @@ public boolean KnightCheck(Coordinate coord,Color co) {
 		Coordinate LeftAndDown=new Coordinate(coord.getY()+i,coord.getX()-j);
 		
 		ArrayList<Coordinate> mylist= new ArrayList<Coordinate>();
-		mylist.add(UpAndLeft);
+		
 		mylist.add(UpAndRight);
+		mylist.add(UpAndLeft);
+		
 		mylist.add(DownAndLeft);
 		mylist.add(DownAndRight);
 		mylist.add(RightAndUp);
@@ -204,12 +217,16 @@ public boolean KnightCheck(Coordinate coord,Color co) {
 		mylist.add(LeftAndDown);
 	
 		
-		for(int a=0;i<mylist.size();i++) {
+		for(int a=0;a<mylist.size();a++) {
 			
 		Piece p=	InitialPieces.get(mylist.get(a));
+		System.out.println(Integer.toString(a)+p);
 		if(p!=null) {
-			System.out.println(p.getName());
+			System.out.println("Name is" +p.getName());
+			System.out.println("Move Status:"+canMove(p, mylist.get(a), coord));
 		}
+		
+		
 			if(p!=null &&p.getColor()!=co && p.getName().contains("Knight")) {
 				return true;
 			}
@@ -224,7 +241,7 @@ public boolean KnightCheck(Coordinate coord,Color co) {
 		int div=1;
 
 		
-		if(co==Color.BLACK) {
+		if(co==color2) {
 			
 		
 		div=-1;	
@@ -329,6 +346,7 @@ public boolean KnightCheck(Coordinate coord,Color co) {
 		
 	}
 	
+
 	
 	public boolean linearProtection(Coordinate c, Color co) { // checks if a piece is supported linearly
 		
@@ -519,6 +537,8 @@ public boolean KnightCheck(Coordinate coord,Color co) {
 				return true;
 			}
 			
+			
+			
 			return false;
 				
 			
@@ -610,7 +630,7 @@ public boolean KnightCheck(Coordinate coord,Color co) {
 		}
 		else if(myPiece.getMovement().equals("Straight")) {
 			
-			if(myPiece.getColor().equals(Color.BLACK)) {
+			if(myPiece.getColor().equals(color2)) {
 				
 				
 				if(to.getX()==from.getX()) {
@@ -651,7 +671,7 @@ public boolean KnightCheck(Coordinate coord,Color co) {
 			}
 			
 			
-			else if(myPiece.getColor().equals(Color.WHITE)) {
+			else if(myPiece.getColor().equals(color1)) {
 				
 				
 				if(to.getX()==from.getX()) {
