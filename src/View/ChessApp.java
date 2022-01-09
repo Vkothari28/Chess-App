@@ -127,7 +127,8 @@ public class ChessApp extends JFrame  {
 			});;
 		 
 		
-		panel.setBackground(new Color(153,102,0));
+		//panel.setBackground(new Color(153,102,0));
+			panel.setBackground(Color.GREEN.darker());
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)

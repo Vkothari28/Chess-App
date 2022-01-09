@@ -194,63 +194,6 @@ public class Model {
 		}
 		}
 
-	/*
-	 * Function to check if Castling is possible
-	 */
-	boolean CastleCheck(Coordinate from, Coordinate to) {
-		
-	Piece king=PiecesWhere.get(from);
-	Color co=king.getColor();
-	int div=1;
-		
-	if(from.getX()!=4)
-	if (from.getX()>to.getX()) {
-		div=-1;
-		
-		if(!PiecesWhere.get(new Coordinate(from.getY(),0)).getName().contains("Rook")) {
-			return false;
-		}
-		
-	}
-	
-	else if(from.getX()<to.getX()) {
-		
-		if(!PiecesWhere.get(new Coordinate(from.getY(),7)).getName().contains("Rook")) {
-			return false;
-		}
-		
-	}
-	
-	
-	int i=1;
-	Coordinate current=new Coordinate(from.getY(),from.getX());
-	
-	if(king!=null) {
-	
-		
-	while(i<=2) {
-	current.x+=(i/div);	
-		
-	if(PiecesWhere.get(current)!=null) {
-		
-		return false;
-	}
-	
-		i++;
-	}
-		
-	
-		
-		
-		
-		
-		
-	}
-	
-	
-	
-		return true;
-	}
 	
 	
 	
@@ -325,6 +268,118 @@ public class Model {
 				}
 	
 	
+	/*
+	 * Function to check if Castling is possible
+	 */
+	boolean CastleCheck(Coordinate from, Coordinate to) {
+		
+		
+	boolean[] myarray= CastlingBlack;
+	
+	if (whiteMoves) {
+		myarray=CastlingWhite;
+	}
+	Piece king=PiecesWhere.get(from);
+	Color co=king.getColor();
+	int div=1;
+		
+	if(from.getX()!=4) {
+		return false;
+	}
+	if (from.getX()>to.getX()) {
+		div=-1;
+		
+		if(!PiecesWhere.get(new Coordinate(from.getY(),0)).getName().contains("Rook")) {
+			return false;
+		}
+		if(myarray[0]==false) {
+			return false;
+		}
+		
+	}
+	
+	else if(from.getX()<to.getX()) {
+		
+		if(!PiecesWhere.get(new Coordinate(from.getY(),7)).getName().contains("Rook")) {
+			return false;
+		}
+		
+		if(myarray[1]==false) {
+			return false;
+		}
+		
+	}
+	
+	
+	int i=1;
+	Coordinate current=new Coordinate(from.getY(),from.getX());
+	
+	if(king!=null) {
+	
+		
+	while(i<=2) {
+	current.x+=(i/div);	
+		
+	if(PiecesWhere.get(current)!=null) {
+		
+		return false;
+	}
+	
+		i++;
+	}
+		
+	
+		
+		
+		
+		
+		
+	}
+	
+	
+	
+		return true;
+	}
+	
+	
+	public void CastlingKing(Coordinate from, Coordinate to) {
+		Coordinate rookCoord=new Coordinate(from.getY(),7);
+		Coordinate put= new Coordinate(from.getY(),from.getX()+1);
+		if(from.getY()==to.getY()&&Math.abs(from.getX()-to.getX())==2){
+			if(CastleCheck(from, to)) {
+				
+			if(from.getX()>to.getX()) {
+				rookCoord=new Coordinate(from.getY(),0);
+				put=new Coordinate(from.getY(),from.x-1);
+			}
+			Piece rook= PiecesWhere.get(rookCoord);
+			PiecesWhere.remove(rookCoord);
+			PiecesWhere.put(put, rook);
+			
+			if(whiteMoves) {
+				KingLocWhite=to;
+			}
+			else {
+				KingLocBlack=to;
+			}
+			PiecesWhere.put(to,SelectedPiece);
+			PiecesWhere.remove(from);
+			selectedCoords.clear();
+			SelectedPiece=null;
+			myBoard.update(PiecesWhere);
+			whiteMoves=!whiteMoves;
+			return;
+			}
+			
+		
+	}	
+		else {
+			selectedCoords.clear();
+			SelectedPiece=null;
+			return;
+		}
+	}
+	
 
 
 
@@ -345,72 +400,9 @@ public class Model {
 		if ((selectedCoords.size()==2&&SelectedPiece.color==Color.WHITE)==whiteMoves) {
 			if(!myBoard.canMove(SelectedPiece, from, to)) {
 				if(SelectedPiece.getName().contains("King")) {
-					if(CastleCheck(from, to)) {
-						PiecesWhere.remove(from);
-						PiecesWhere.put(to,SelectedPiece);
-						
-						if(from.getX()>to.getX()) {
-							if(whiteMoves) {
-								if(CastlingWhite[0]=false) {
-									return;
-								}
-							}
-							else {
-								if(CastlingBlack[0]=false) {
-									return;
-								}
-							}
-							
-							
-						Coordinate rookCoord=	new Coordinate(from.getY(),0);
-							Piece Rook= PiecesWhere.get(rookCoord);
-							PiecesWhere.remove(rookCoord);
-							PiecesWhere.put(new Coordinate(to.getY(),to.getX()+1), Rook);
-							
-						}
-						
-						else if(from.getX()<to.getX()) {
-							if(whiteMoves) {
-								if(CastlingWhite[1]=false) {
-									return;
-								}
-							}
-							else {
-								if(CastlingBlack[1]=false) {
-									return;
-								}
-							}
-							
-							Coordinate rookCoord=	new Coordinate(from.getY(),7);
-							Piece Rook= PiecesWhere.get(rookCoord);
-							PiecesWhere.remove(rookCoord);
-							PiecesWhere.put(new Coordinate(to.getY(),to.getX()-1), Rook);
-							
-							
-						}
-						
-						
-						if(whiteMoves) {
-							CastlingWhite[0]=false;
-							CastlingWhite[1]=false;
-							KingLocWhite=to;
-							
-						}
-						else if (!whiteMoves) {
-							Arrays.fill(CastlingBlack, false);
-							KingLocBlack=to;
-						}
-					}
-					whiteMoves=!whiteMoves;
-					LastPiece=SelectedPiece;
-					LastMovedTo=to;
-					selectedCoords.clear();
-					myBoard.update(PiecesWhere);
-					SelectedPiece=null;
-				
-					return;
+					CastlingKing(from, to);
+				return;
 				}
-				
 				else {
 					selectedCoords.remove(1);
 					
@@ -423,8 +415,26 @@ public class Model {
 				if(PiecesWhere.get(to)!=null) {
 					PiecesWhere.remove(to);
 				}
+				if(SelectedPiece.getName().contains("Rook2")) {
+					if (whiteMoves) {
+						CastlingWhite[0]=false;
+					}
+					else {
+						CastlingBlack[0]=false;
+					}
+				}
 				
-				if(SelectedPiece.getName().contains("King")) {
+				else if(SelectedPiece.getName().contains("Rook")) {
+					if (whiteMoves) {
+						CastlingWhite[1]=false;
+					}
+					else {
+						CastlingBlack[1]=false;
+					}
+				}
+				
+				
+				else if(SelectedPiece.getName().contains("King")) {
 					if (whiteMoves) {
 				
 						KingLocWhite=to;
@@ -482,9 +492,11 @@ public class Model {
 		}
 		
 		   
+		System.out.println("Castling"+CastlingWhite[0]+ CastlingWhite[1]);		
+		
+		   
+				System.out.println("Castling"+CastlingBlack[0]+ CastlingBlack[1]);		
 				
-		
-		
 	}
 	
 	public void reset() throws IOException {

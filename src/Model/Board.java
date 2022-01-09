@@ -220,10 +220,9 @@ public boolean KnightCheck(Coordinate coord,Color co) {
 		for(int a=0;a<mylist.size();a++) {
 			
 		Piece p=	InitialPieces.get(mylist.get(a));
-		System.out.println(Integer.toString(a)+p);
+		
 		if(p!=null) {
-			System.out.println("Name is" +p.getName());
-			System.out.println("Move Status:"+canMove(p, mylist.get(a), coord));
+			
 		}
 		
 		
@@ -561,7 +560,7 @@ public boolean KnightCheck(Coordinate coord,Color co) {
 					Coordinate coord= new Coordinate(from.getY()-i,from.getX()+j_it);
 					j_it++;
 					if(InitialPieces.get(coord)!=null) {
-						System.out.println("returning False 1");
+						
 						return false;
 					}
 					
@@ -578,7 +577,7 @@ public boolean KnightCheck(Coordinate coord,Color co) {
 						Coordinate coord= new Coordinate(from.getY()-i,from.getX()-i);
 						
 						if(InitialPieces.get(coord)!=null) {
-							System.out.println("returning False 2");
+							
 							return false;
 						}
 						
