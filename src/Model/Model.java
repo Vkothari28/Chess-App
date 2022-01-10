@@ -368,7 +368,12 @@ public class Model {
 			SelectedPiece=null;
 			myBoard.update(PiecesWhere);
 			whiteMoves=!whiteMoves;
-			return;
+			
+			}
+			
+			else {
+				SelectedPiece=null;
+				selectedCoords.clear();
 			}
 			
 		
@@ -400,8 +405,10 @@ public class Model {
 		if ((selectedCoords.size()==2&&SelectedPiece.color==Color.WHITE)==whiteMoves) {
 			if(!myBoard.canMove(SelectedPiece, from, to)) {
 				if(SelectedPiece.getName().contains("King")) {
+					if(!isInCheck()) {
 					CastlingKing(from, to);
-				return;
+				
+				}
 				}
 				else {
 					selectedCoords.remove(1);
@@ -510,6 +517,8 @@ public class Model {
 		PiecesWhere= myBoard.getPositions();
 		KingLocWhite= new Coordinate(7,4);
 		KingLocBlack= new Coordinate(0,4);
+		Arrays.fill(CastlingWhite, true);
+		Arrays.fill(CastlingBlack, true);
 		
 	}
 	
