@@ -17,10 +17,10 @@ public class ResetController {
 		this.app=app;
 	}
 	
-	public void reset() throws IOException {
+	public void reset(boolean b) throws IOException {
 		
 		
-		m.reset();
+		m.reset(b);
 		app.getCheckLabel().setVisible(false);
 		app.repaint();
 	}

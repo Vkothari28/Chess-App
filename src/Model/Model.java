@@ -35,18 +35,19 @@ public class Model {
 	private boolean[] CastlingWhite=new boolean[2];
 	private boolean[] CastlingBlack=new boolean[2];
 	
-	
+	 
 	public Model() throws IOException {
 		this.score=0;
 		this.piececount=16;
 		this.myBoard=new Board();
-		whiteMoves=true;
+		whiteMoves=myBoard.playerChoseWhite;
 		PiecesWhere= myBoard.getPositions();
 		KingLocWhite= new Coordinate(7,4);
 		KingLocBlack= new Coordinate(0,4);
 		Arrays.fill(CastlingBlack, true);
 		Arrays.fill(CastlingWhite, true);
 	}
+	
 	
 	public HashMap<Coordinate, Piece> getPieceswhere(){
 		return this.PiecesWhere;
@@ -506,14 +507,14 @@ public class Model {
 				
 	}
 	
-	public void reset() throws IOException {
+	public void reset(boolean b) throws IOException {
 		check=false;
 		LastPiece=null;
 		SelectedPiece=null;		
 		this.score=0;
 		this.piececount=16;
-		this.myBoard=new Board();
-		whiteMoves=true;
+		this.myBoard=new Board(b);
+		whiteMoves=b;
 		PiecesWhere= myBoard.getPositions();
 		KingLocWhite= new Coordinate(7,4);
 		KingLocBlack= new Coordinate(0,4);

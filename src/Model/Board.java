@@ -17,24 +17,39 @@ public class Board {
 	Color color1=Color.WHITE;
 	Color color2=Color.BLACK;
 	
-	boolean playerChoseWhite=true;
+	protected boolean playerChoseWhite=true;
 	
 	HashMap<Coordinate,Piece> InitialPieces=new HashMap<Coordinate, Piece>();
 	//ArrayList<Coordinate> SelectedCoordinates= new ArrayList<Coordinate>();
 	Image imgs[]=new Image[12];
-	
+	private int image_assigner=0;
 	public Board() throws IOException {
 		
-		InitialPieces=this.Initialize();
-		if(!playerChoseWhite) {
-			Color temp=color1;
-			color1=color2;
-			color2=temp;
+		
+if(!playerChoseWhite) {
+			
+			image_assigner=6;
 			
 		}
+		InitialPieces=this.Initialize();
+		
 		
 		
 	}
+	
+	public Board(boolean b) throws IOException {
+		
+		playerChoseWhite=b;
+		if(!playerChoseWhite) { 
+					
+					image_assigner=6;
+					
+				}
+				InitialPieces=this.Initialize();
+				
+				
+				
+			}
 	
 	public void update(HashMap<Coordinate,Piece> updatedMap) {
 		if(InitialPieces==null) {
@@ -47,6 +62,10 @@ public class Board {
 	public HashMap<Coordinate,Piece> getPositions() {
 		return this.InitialPieces;
 		
+	}
+	
+	protected void setPlayerChosen(boolean b) {
+		this.playerChoseWhite=b;
 	}
 	
 	/*
@@ -68,34 +87,34 @@ public class Board {
 		HashMap<Coordinate,Piece> IP= new HashMap<Coordinate,Piece>();
 		
 		cutPieces();
-		System.out.println(imgs[0]);
+		
 		
 		// white initialization
-		Piece RookWhite=new Piece("RookWhite", "Linear",color1,imgs[4]);
-		Piece RookWhite2=new Piece("RookWhite2", "Linear",color1,imgs[4]);
-		Piece BishopWhite=new Piece("BishopWhite", "Diagonal",color1,imgs[2]);
-		Piece BishopWhite2=new Piece("BishopWhite2", "Diagonal",color1,imgs[2]);
-		Piece KnightWhite=new Piece("KnightWhite", "Jump",color1,imgs[3]);
-		Piece KnightWhite2=new Piece("KnightWhite2", "Jump",color1,imgs[3]);
-		Piece QueenWhite= new Piece("QueenWhite","omni",color1,imgs[1] );
-		Piece KingWhite=new Piece("KingWhite","Omni_1",color1,imgs[0]);
+		Piece RookWhite=new Piece("RookWhite", "Linear",color1,imgs[4+image_assigner]);
+		Piece RookWhite2=new Piece("RookWhite2", "Linear",color1,imgs[4+image_assigner]);
+		Piece BishopWhite=new Piece("BishopWhite", "Diagonal",color1,imgs[2+image_assigner]);
+		Piece BishopWhite2=new Piece("BishopWhite2", "Diagonal",color1,imgs[2+image_assigner]);
+		Piece KnightWhite=new Piece("KnightWhite", "Jump",color1,imgs[3+image_assigner]);
+		Piece KnightWhite2=new Piece("KnightWhite2", "Jump",color1,imgs[3+image_assigner]);
+		Piece QueenWhite= new Piece("QueenWhite","omni",color1,imgs[1+image_assigner] );
+		Piece KingWhite=new Piece("KingWhite","Omni_1",color1,imgs[0+image_assigner]);
 		
 		
 		
 		for(int i=0;i<8;i++) {
-			IP.put(new Coordinate(1,i), new Pawn("PawnBlack"+i,"Straight",color2,imgs[11]));
+			IP.put(new Coordinate(1,i), new Pawn("PawnBlack"+i,"Straight",color2,imgs[11-image_assigner]));
 			
 			
 		
 		}
-		Piece RookBlack=new Piece("RookBlack", "Linear",color2,imgs[10]);
-		Piece RookBlack2=new Piece("RookBlack2", "Linear",color2,imgs[10]);
-		Piece BishopBlack=new Piece("BishopBlack", "Diagonal",color2,imgs[8]);
-		Piece BishopBlack2=new Piece("BishopBlack2", "Diagonal",color2,imgs[8]);
-		Piece KnightBlack=new Piece("KnightBlack", "Jump",color2,imgs[9]);
-		Piece KnightBlack2=new Piece("KnightBlack2", "Jump",color2,imgs[9]);
-		Piece QueenBlack= new Piece("QueenBlack","omni",color2,imgs[7] );
-		Piece KingBlack=new Piece("KingBlack","Omni_1",color2,imgs[6]);
+		Piece RookBlack=new Piece("RookBlack", "Linear",color2,imgs[10-image_assigner]);
+		Piece RookBlack2=new Piece("RookBlack2", "Linear",color2,imgs[10-image_assigner]);
+		Piece BishopBlack=new Piece("BishopBlack", "Diagonal",color2,imgs[8-image_assigner]);
+		Piece BishopBlack2=new Piece("BishopBlack2", "Diagonal",color2,imgs[8-image_assigner]);
+		Piece KnightBlack=new Piece("KnightBlack", "Jump",color2,imgs[9-image_assigner]);
+		Piece KnightBlack2=new Piece("KnightBlack2", "Jump",color2,imgs[9-image_assigner]);
+		Piece QueenBlack= new Piece("QueenBlack","omni",color2,imgs[7-image_assigner] );
+		Piece KingBlack=new Piece("KingBlack","Omni_1",color2,imgs[6-image_assigner]);
 		
 		
 		//white initalization
@@ -128,7 +147,7 @@ public class Board {
 		
 		for(int i=0;i<8;i++) {
 			Coordinate c= new Coordinate(6,i);
-			IP.put(c, new Pawn("PawnWhite"+i,"Straight",color1,imgs[5]));
+			IP.put(c, new Pawn("PawnWhite"+i,"Straight",color1,imgs[5+image_assigner]));
 			
 			
 		
