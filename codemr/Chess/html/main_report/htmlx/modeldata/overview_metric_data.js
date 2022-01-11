@@ -1,1 +1,0 @@
-var CodeMR_ProjectMetrics = {"Project Name":"Chess", "Number of Highly Problematic Classes":0, "Number of Entities":12, "Number of Problematic Classes":1, "Class Lines of Code":698, "Number of External Packages":25, "Number of Packages":4, "Number of External Entities":171}
