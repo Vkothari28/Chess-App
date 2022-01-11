@@ -23,6 +23,7 @@ public class Board {
 	//ArrayList<Coordinate> SelectedCoordinates= new ArrayList<Coordinate>();
 	Image imgs[]=new Image[12];
 	private int image_assigner=0;
+	Piece Enpessant=null;
 	public Board() throws IOException {
 		
 		
@@ -296,8 +297,8 @@ public boolean KnightCheck(Coordinate coord,Color co) {
 			
 			 DiagonalUpRight= new Coordinate(c.getY()-diff,c.getX()+diff);
 			 DiagonalUpLeft= new Coordinate(c.getY()-diff,c.getX()-diff);
-			 DiagonalDownLeft= new Coordinate(c.getY()-diff,c.getX()-diff);
-			 DiagonalDownRight= new Coordinate(c.getY()+diff,c.getX()-diff);
+			 DiagonalDownLeft= new Coordinate(c.getY()+diff,c.getX()-diff);
+			 DiagonalDownRight= new Coordinate(c.getY()+diff,c.getX()+diff);
 			
 			 
 			 

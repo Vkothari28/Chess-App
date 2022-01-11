@@ -27,7 +27,7 @@ public class Model {
 	
 	HashMap<Coordinate, Piece>PiecesWhere;
 	ArrayList<Coordinate> selectedCoords= new ArrayList<Coordinate>();
-	
+	Piece Enpessant;
 	Piece SelectedPiece;
 	
 	
@@ -80,6 +80,7 @@ public class Model {
 //		System.out.println("Knight"+knightCheck);
 //		System.out.println("curr king at"+current.getY());
 		boolean pawnCheck=myBoard.PawnProtection(current, PiecesWhere.get(current).getColor());
+		boolean diagCheck= myBoard.diagProtection(current, PiecesWhere.get(current).getColor());
 		for(int i=0;i<=7;i++) { 
 		
 			incx=new Coordinate(current.getY(),current.getX()+i);
@@ -128,7 +129,7 @@ public class Model {
 				
 				
 				
-				if(incy.getY()<=7&&containsPiece(incy)&&((p.getColor()==Color.WHITE)!=whiteMoves)&&horizCheck!=true) {
+				if(incy.getY()<=7&&containsPiece(incy)&&((p.getColor()==Color.WHITE)!=whiteMoves)&&horizCheck!=true) { 
 				
 				
 				if(myBoard.canMove(p, incy, current)) {
@@ -155,7 +156,7 @@ public class Model {
 		
 	
 	
-	return knightCheck||horizCheck||verticCheck||pawnCheck||myBoard.diagProtection(current, PiecesWhere.get(current).getColor()) ;
+	return knightCheck||horizCheck||verticCheck||pawnCheck||diagCheck ;
 	
 	}
 		
@@ -420,10 +421,12 @@ public class Model {
 			
 			else if(myBoard.canMove(SelectedPiece, from, to)) {
 				
+			
+				
 				if(PiecesWhere.get(to)!=null) {
 					PiecesWhere.remove(to);
 				}
-				if(SelectedPiece.getName().contains("Rook2")) {
+				else if(SelectedPiece.getName().contains("Rook2")) {
 					if (whiteMoves) {
 						CastlingWhite[0]=false;
 					}
@@ -442,7 +445,7 @@ public class Model {
 				}
 				
 				
-				else if(SelectedPiece.getName().contains("King")) {
+				 if(SelectedPiece.getName().contains("King")) {
 					if (whiteMoves) {
 				
 						KingLocWhite=to;
@@ -460,13 +463,25 @@ public class Model {
 					}
 				}
 				
+				
+				System.out.println("Piece before check"+(PiecesWhere.get(to)));
 				PiecesWhere.remove(from);
 				PiecesWhere.put(to, SelectedPiece);
 				if(isInCheck()) {
 					
+					System.out.println("Checking this");
+				
 					PiecesWhere.remove(to);
 					PiecesWhere.put(from,SelectedPiece);
 					
+					if(SelectedPiece.getName().contains("King")) {
+						if(whiteMoves) {
+							KingLocWhite=from;
+						}
+						else {
+							KingLocBlack=from;
+						}
+					}
 					SelectedPiece=null;
 					selectedCoords.clear();
 					myBoard.update(PiecesWhere);
@@ -489,6 +504,12 @@ public class Model {
 				
 				}
 				
+				
+				if(selectedCoords.size()==2) {
+					
+					selectedCoords.clear();
+					
+				}
 			}
 			
 			
@@ -497,14 +518,13 @@ public class Model {
 			
 			
 			
+			
+			
 		}
+	
 		
 		   
-		System.out.println("Castling"+CastlingWhite[0]+ CastlingWhite[1]);		
 		
-		   
-				System.out.println("Castling"+CastlingBlack[0]+ CastlingBlack[1]);		
-				
 	}
 	
 	public void reset(boolean b) throws IOException {
