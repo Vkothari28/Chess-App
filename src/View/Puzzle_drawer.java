@@ -112,10 +112,10 @@ public class Puzzle_drawer extends JPanel  {
 					
 				}
 				
-				if(model.isInCheck()) {
-					System.out.println("check");
-					
-				}
+//				if(model.isInCheck()) {
+//					System.out.println("check");
+//					
+//				}
 				
 				
 				

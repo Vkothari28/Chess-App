@@ -370,7 +370,7 @@ public class Model {
 			SelectedPiece=null;
 			myBoard.update(PiecesWhere);
 			whiteMoves=!whiteMoves;
-			
+			Enpessant=null;
 			}
 			
 			else {
@@ -395,7 +395,7 @@ public class Model {
 		HashMap<Coordinate, Piece> CheckCase= new HashMap<Coordinate, Piece>(); 
 		//SelectedPiece= PiecesWhere.get(from);
 		CheckCase=PiecesWhere;
-		
+		Piece currentEnpessant=null;
 		
 		
 		if(SelectedPiece==null) {
@@ -412,11 +412,32 @@ public class Model {
 				
 				}
 				}
+					
+					if(Math.abs(from.getY()-to.getY())==1&& Math.abs(from.getX()-to.getX())==1&&Enpessant!=null&&SelectedPiece.getName().contains("Pawn")&&Enpessant.getColor()!=SelectedPiece.getColor()) {
+						Coordinate coordinate=new Coordinate(from.getY(),from.getX()+(to.getX()-from.getX()));
+						
+						System.out.println(PiecesWhere.get(coordinate));
+							if(PiecesWhere.get(coordinate).equals(Enpessant)) {
+								
+								PiecesWhere.remove(coordinate);
+								PiecesWhere.remove(from);
+								PiecesWhere.put(to, SelectedPiece);
+								selectedCoords.clear();
+								SelectedPiece=null;
+							}
+						}
+						
+						
+					
+					
+				
 				else {
 					selectedCoords.remove(1);
 					
 				}
 			}
+		
+			
 			
 			
 			else if(myBoard.canMove(SelectedPiece, from, to)) {
@@ -426,7 +447,12 @@ public class Model {
 				if(PiecesWhere.get(to)!=null) {
 					PiecesWhere.remove(to);
 				}
-				else if(SelectedPiece.getName().contains("Rook2")) {
+				if(SelectedPiece.getName().contains("Pawn")) {
+					if(Math.abs(to.getY()-from.getY())==2) {
+						currentEnpessant=SelectedPiece;
+					}
+				}
+				 if(SelectedPiece.getName().contains("Rook2")) {
 					if (whiteMoves) {
 						CastlingWhite[0]=false;
 					}
@@ -505,17 +531,21 @@ public class Model {
 				}
 				
 				
-				if(selectedCoords.size()==2) {
-					
-					selectedCoords.clear();
-					
-				}
 			}
 			
+
+			if(selectedCoords.size()==2) {
+				
+				selectedCoords.clear();
+				SelectedPiece=null;
+				System.out.println("choose another move");
+				
+			}
+			
+		}
 			
 			
-			
-			
+			Enpessant=currentEnpessant;
 			
 			
 			
@@ -525,7 +555,7 @@ public class Model {
 		
 		   
 		
-	}
+	
 	
 	public void reset(boolean b) throws IOException {
 		check=false;
