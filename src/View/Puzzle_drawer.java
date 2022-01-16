@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import javax.swing.*;
 
+import Controller.MovementController;
 import Model.Coordinate;
 import Model.Model;
 import Model.Piece;
@@ -105,7 +106,7 @@ public class Puzzle_drawer extends JPanel  {
 					}
 					
 					if(model.getSelectedCoordinates().size()==2) {
-						model.move(model.getSelectedCoordinates().get(0), model.getSelectedCoordinates().get(1));
+						new MovementController(model).movePiece();
 						
 						
 					}

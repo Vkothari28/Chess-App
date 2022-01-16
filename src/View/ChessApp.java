@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.GroupLayout;
@@ -154,6 +155,41 @@ public class ChessApp extends JFrame  {
 		btnRandom.setBackground(Color.DARK_GRAY.brighter());
 		btnRandom.setForeground(Color.CYAN);
 		btnRandom.setVisible(false);
+		
+		btnRandom.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				 Random rand = new Random(); 
+				 int rand_int = rand.nextInt(2);  
+				 System.out.println(rand_int);
+				 
+				btnWhute.setVisible(false);
+				btnBlack.setVisible(false);
+				btnRandom.setVisible(false);
+				btnReset.setVisible(true);
+				panel.setVisible(true);
+				btnNewGame.setVisible(true);
+				if(rand_int==1) {
+					choicetoReset=true;
+				}
+				else {
+				choicetoReset=false;
+				}
+				panel_1.setVisible(false);
+				try {
+					System.out.println("trying this");
+					new ResetController(model, ChessApp.this).reset(choicetoReset);
+					
+					ChessApp.this.model= new Model();
+					ChessApp.this.repaint();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
 		
 		
 		btnWhute.addActionListener(new ActionListener() {
