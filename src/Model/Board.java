@@ -22,7 +22,7 @@ public class Board {
 	HashMap<Coordinate,Piece> InitialPieces=new HashMap<Coordinate, Piece>();
 	//ArrayList<Coordinate> SelectedCoordinates= new ArrayList<Coordinate>();
 	Image imgs[]=new Image[12];
-	private int image_assigner=0;
+	protected int image_assigner=0;
 	Piece Enpessant=null;
 	public Board() throws IOException {
 		
